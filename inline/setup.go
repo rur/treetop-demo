@@ -17,27 +17,27 @@ func Setup(mux *http.ServeMux, devMode bool) {
 	base := treetop.NewView("local://base.html", treetop.Delegate("content"))
 	_ = base.NewDefaultSubView("nav", "local://nav.html", treetop.Noop)
 	content := base.NewSubView("content",
-		"demo/inline/templates/content.html.tmpl",
+		"inline/templates/content.html.tmpl",
 		profileContentHandler)
 
 	firstName := content.NewDefaultSubView("first-name",
-		"demo/inline/templates/input.html.tmpl",
+		"inline/templates/input.html.tmpl",
 		srv.bind(getFormFieldHandler("firstName")))
 
 	surname := content.NewDefaultSubView("surname",
-		"demo/inline/templates/input.html.tmpl",
+		"inline/templates/input.html.tmpl",
 		srv.bind(getFormFieldHandler("surname")))
 
 	email := content.NewDefaultSubView("email",
-		"demo/inline/templates/email.html.tmpl",
+		"inline/templates/email.html.tmpl",
 		srv.bind(getFormFieldHandler("email")))
 
 	country := content.NewDefaultSubView("country",
-		"demo/inline/templates/select.html.tmpl",
+		"inline/templates/select.html.tmpl",
 		srv.bind(getFormFieldHandler("country")))
 
 	description := content.NewDefaultSubView("description",
-		"demo/inline/templates/textarea.html.tmpl",
+		"inline/templates/textarea.html.tmpl",
 		srv.bind(getFormFieldHandler("description")))
 
 	var exec treetop.ViewExecutor = &treetop.FileExecutor{

@@ -23,9 +23,9 @@ Review source: [greeter/greeter.go](greeter/greeter.go)
 Full page view hierarchy for the `"/greeter/greet"` path.
 
     - View("local://base.html", github.com/rur/treetop.Delegate.func1)
-    |- content: SubView("content", "demo/greeter/templates/content.html", github.com/rur/treet……emo/greeter.contentViewHandler)
-    |  |- message: SubView("message", "demo/greeter/templates/greeting.html", github.com/rur/treet……mo/greeter.greetingViewHandler)
-    |  '- notes: SubView("notes", "demo/greeter/templates/notes.html", github.com/rur/treetop-demo/greeter.notesHandler)
+    |- content: SubView("content", "greeter/templates/content.html", github.com/rur/treet……emo/greeter.contentViewHandler)
+    |  |- message: SubView("message", "greeter/templates/greeting.html", github.com/rur/treet……mo/greeter.greetingViewHandler)
+    |  '- notes: SubView("notes", "greeter/templates/notes.html", github.com/rur/treetop-demo/greeter.notesHandler)
     |
     '- nav: SubView("nav", "local://nav.html", github.com/rur/treetop.Noop)
 
@@ -42,12 +42,12 @@ Review source: [inline/setup.go](inline/setup.go)
 Full page view hierarchy for user profile page
 
     - View("local://base.html", github.com/rur/treetop.Delegate.func1)
-    |- content: SubView("content", "demo/inline/templates/content.html.tmpl", github.com/rur/treet……o/inline.profileContentHandler)
-    |  |- country: SubView("country", "demo/inline/templates/select.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
-    |  |- description: SubView("description", "demo/inline/templates/textarea.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
-    |  |- email: SubView("email", "demo/inline/templates/email.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
-    |  |- first-name: SubView("first-name", "demo/inline/templates/input.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
-    |  '- surname: SubView("surname", "demo/inline/templates/input.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
+    |- content: SubView("content", "inline/templates/content.html.tmpl", github.com/rur/treet……o/inline.profileContentHandler)
+    |  |- country: SubView("country", "inline/templates/select.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
+    |  |- description: SubView("description", "inline/templates/textarea.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
+    |  |- email: SubView("email", "inline/templates/email.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
+    |  |- first-name: SubView("first-name", "inline/templates/input.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
+    |  '- surname: SubView("surname", "inline/templates/input.html.tmpl", github.com/rur/treet……ine.(*cookieServer).bind.func1)
     |
     '- nav: SubView("nav", "local://nav.html", github.com/rur/treetop.Noop)
 
@@ -71,13 +71,13 @@ Review source: [ticket/routemap.toml](ticket/routemap.toml), is used to generate
 The full page hierarchy for the `"/ticket/helpdesk/new"` endpoint.
 
     - View("local://base.html", github.com/rur/treetop.Delegate.func1)
-    |- content: SubView("content", "demo/ticket/template……nt/ticketFormContent.html.tmpl", github.com/rur/treet……/ticket/handlers.TicketHandler)
-    |  '- form: SubView("form", "demo/ticket/template……rm/newHelpdeskTicket.html.tmpl", github.com/rur/treet……dlers.NewHelpdeskTicketHandler)
-    |     |- attachment-list: SubView("attachment-list", "demo/ticket/template……ntList/uploadedFiles.html.tmpl", github.com/rur/treet……lers.AttachmentFileListHandler)
+    |- content: SubView("content", "ticket/template……nt/ticketFormContent.html.tmpl", github.com/rur/treet……/ticket/handlers.TicketHandler)
+    |  '- form: SubView("form", "ticket/template……rm/newHelpdeskTicket.html.tmpl", github.com/rur/treet……dlers.NewHelpdeskTicketHandler)
+    |     |- attachment-list: SubView("attachment-list", "ticket/template……ntList/uploadedFiles.html.tmpl", github.com/rur/treet……lers.AttachmentFileListHandler)
     |     |- form-message: nil
-    |     |- notes: SubView("notes", "demo/ticket/templates/content/notes.html.tmpl", github.com/rur/treetop.Noop)
-    |     '- reported-by: SubView("reported-by", "demo/ticket/template……y/helpdeskReportedBy.html.tmpl", github.com/rur/treet……lers.HelpdeskReportedByHandler)
-    |        '- find-user: SubView("find-user", "demo/ticket/template……y/findReportedByUser.html.tmpl", github.com/rur/treet……lers.FindReportedByUserHandler)
+    |     |- notes: SubView("notes", "ticket/templates/content/notes.html.tmpl", github.com/rur/treetop.Noop)
+    |     '- reported-by: SubView("reported-by", "ticket/template……y/helpdeskReportedBy.html.tmpl", github.com/rur/treet……lers.HelpdeskReportedByHandler)
+    |        '- find-user: SubView("find-user", "ticket/template……y/findReportedByUser.html.tmpl", github.com/rur/treet……lers.FindReportedByUserHandler)
     |
     '- nav: SubView("nav", "local://nav.html", github.com/rur/treetop.Noop)
 

@@ -14,13 +14,13 @@ func Setup(mux *http.ServeMux, devMode bool) {
 	_ = page.NewDefaultSubView("nav", "local://nav.html", treetop.Noop)
 
 	// Greeter Content View
-	content := page.NewSubView("content", "demo/greeter/templates/content.html", contentViewHandler)
+	content := page.NewSubView("content", "greeter/templates/content.html", contentViewHandler)
 	// content -> message
 	greetForm := content.NewSubView("message", "local://landing.html", treetop.Noop)
-	greetMessage := content.NewSubView("message", "demo/greeter/templates/greeting.html", greetingViewHandler)
+	greetMessage := content.NewSubView("message", "greeter/templates/greeting.html", greetingViewHandler)
 	// content -> notes
 	hideNotes := content.NewSubView("notes", "local://hide-notes.html", treetop.Noop)
-	notes := content.NewSubView("notes", "demo/greeter/templates/notes.html", treetop.Noop)
+	notes := content.NewSubView("notes", "greeter/templates/notes.html", treetop.Noop)
 
 	// Configure template executor with a hybrid of template files and inlined string templates
 	var exec treetop.ViewExecutor = &treetop.FileExecutor{

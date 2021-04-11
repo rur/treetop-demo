@@ -82,12 +82,12 @@ func infoSetup(mux *http.ServeMux, devMode bool) {
 		NewView("local://base.html", treetop.Noop)
 
 	mux.Handle("/more", exec.NewViewHandler(
-		base.NewSubView("content", "demo/more.html", treetop.Noop),
+		base.NewSubView("content", "more.html", treetop.Noop),
 		base.NewSubView("nav", "local://nav-more.html", treetop.Noop),
 	).PageOnly())
 
 	homeHandler := exec.NewViewHandler(
-		base.NewSubView("content", "demo/intro.html", treetop.Noop),
+		base.NewSubView("content", "intro.html", treetop.Noop),
 		base.NewSubView("nav", "local://nav-home.html", treetop.Noop),
 	).PageOnly()
 
