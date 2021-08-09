@@ -108,7 +108,13 @@ func SoftwareAssigneeHandler(rsp treetop.Response, req *http.Request) interface{
 	data := struct {
 		Assignees []inputs.Assignee
 		AutoFocus bool
-	}{}
+		FindUser  interface{}
+	}{
+		FindUser: rsp.HandleSubView("find-user", req),
+	}
+	if rsp.Finished() {
+		return nil
+	}
 	roles := query["assignee-role"]
 	var offset int
 	for _, a := range query["assignees"] {

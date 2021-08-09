@@ -9,8 +9,7 @@
 						<input enter-submitter="assignee-find-user" type="search" class="form-control" name="search-query" autocomplete="off" placeholder="search for users"{{ if .AutoFocus }} autofocus{{ end }}>
 						<button id="assignee-find-user" class="d-none"  treetop-submitter formnovalidate formaction="/ticket/software/find-assignee">Find User</button>
 					</div>
-
-					<div id="find-user" class="d-none"></div>
+					{{ block "find-user" .FindUser }}<div id="find-user" class="d-none"></div>{{ end }}
 				</div>
 
 				<div class="mb-2">

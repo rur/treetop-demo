@@ -175,8 +175,8 @@
 						if (el.id) {
 							placeholder.id = el.id;
 						}
-						// unmount the element from the DOM, replace with a placeholder
-						treetop.updateElement(placeholder, el)
+						// replace the element from the DOM with a placeholder
+						treetop.mount(placeholder, el)
 					}
 					document.addEventListener("click", el.dismissMeHandler)
 					document.addEventListener("keydown", el.dismissMeHandler)
@@ -238,12 +238,12 @@
 						const nueChild = nue.querySelector("#"+childID)
 						if (nueChild instanceof HTMLElement && oldChild instanceof HTMLElement) {
 							//  swap the new child for the old one
-							treetop.updateElement(nueChild, oldChild)
+							treetop.mount(nueChild, oldChild)
 							return
 						}
 					}
 					// fall back on standard element swap
-					treetop.updateElement(nue, old)
+					treetop.mount(nue, old)
 				},
 
 				'dedup-append': function (nue, old) {
@@ -255,7 +255,7 @@
 						if (child.id) {
 							const existing = old.querySelector("#" + child.id)
 							if (existing)  {
-								treetop.updateElement(child, existing)
+								treetop.mount(child, existing)
 								continue
 							}
 						}
