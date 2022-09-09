@@ -2,6 +2,7 @@ package ticket
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/rur/treetop"
 	"github.com/rur/treetop-demo/page/ticket/inputs"
@@ -37,6 +38,17 @@ func newHelpdeskTicketHandler(env *site.Env, rsp treetop.Response, req *http.Req
 		Urgency:        query.Get("urgency"),
 		Notes:          rsp.HandleSubView("notes", req),
 	}
+
+	// for mock purposes
+	if data.Description == "" {
+		data.Description = strings.Join([]string{
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do",
+			"eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad",
+			"minim veniam, quis nostrud exercitation ullamco laboris nisi ut",
+			"aliquip ex ea commodo consequat.",
+		}, "\n")
+	}
+
 	return data
 }
 
