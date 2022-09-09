@@ -70,7 +70,6 @@ func main() {
 		ErrorLog: log.New(os.Stderr, "[error]: ", log.Llongfile),
 		WarnLog:  log.New(os.Stdout, "[warn]: ", log.Llongfile),
 		InfoLog:  log.New(os.Stdout, "[info]: ", log.Llongfile),
-		DB:       nil,
 	}
 
 	// EDITME: it is recommended to replace this with your preferred routing library

@@ -1,0 +1,33 @@
+_ref = "ticket"
+_handler = "page.BaseHandler"
+_doc = "Shared base tempate and handler"
+_entrypoint = "/ticket"
+_template = "page/templates/base.html.tmpl"
+
+[[nav]]
+_ref = "page-nav"
+_template = "page/templates/nav.html.tmpl"
+_handler = 'treetop.Constant("ticket")'
+_default = true
+
+[[content]]
+_ref = "ticket-main-content"
+_template = "page/ticket/templates/content/ticket-main-content.html.tmpl"
+_handler = "hlp.BindEnv(ticketMainContentHandler)"
+_default = true
+_doc = "ticket page content handler, TODO: add rsp.HandleSubView as needed"
+_path = "/ticket"
+
+[[styles]]
+_ref = "site-styles"
+_default = true
+_doc = "Include page styles in document header"
+_template = "page/ticket/templates/styles.html.tmpl"
+_handler = "treetop.Noop"
+
+[[scripts]]
+_ref = "site-scripts"
+_default = true
+_doc = "Include page scripts"
+_template = "page/ticket/templates/scripts.html.tmpl"
+_handler = "treetop.Noop"

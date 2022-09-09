@@ -1,7 +1,6 @@
 package site
 
 import (
-	"database/sql"
 	"log"
 )
 
@@ -14,9 +13,4 @@ type Env struct {
 	ErrorLog *log.Logger
 	WarnLog  *log.Logger
 	InfoLog  *log.Logger
-
-	// resource pool
-	DB *sql.DB
-
-	// EDITME: add your site-wide stuff here
 }
