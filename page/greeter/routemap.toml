@@ -1,0 +1,65 @@
+_ref = "greeter"
+_handler = "page.BaseHandler"
+_doc = "Shared base tempate and handler"
+_entrypoint = "/greeter"
+_template = "page/templates/base.html.tmpl"
+
+[[nav]]
+_ref = "page-nav"
+_template = "page/templates/nav.html.tmpl"
+_handler = 'treetop.Constant("greeter")'
+_default = true
+
+[[content]]
+_ref = "greeter-form-content"
+_template = "page/greeter/templates/content/greeter-form-content.html.tmpl"
+_handler = "hlp.BindEnv(greeterFormContentHandler)"
+_default = true
+_doc = "static form layout"
+
+[[content.message]]
+_ref = "greeter-landing-screen"
+_template = "page/greeter/templates/content/message/greeter-landing-screen.html.tmpl"
+_handler = "treetop.Noop"
+_default = true
+_partial = true
+_doc = "display a welcome message and instructions"
+_method = "GET"
+_path = "/greeter"
+
+[[content.message]]
+_ref = "greeting-message"
+_template = "page/greeter/templates/content/message/greeting-message.html.tmpl"
+_handler = "hlp.BindEnv(greetingMessageHandler)"
+_doc = "show the greeting message"
+_partial = true
+_method = "GET"
+_path = "/greeter/greet"
+_includes = ["greeter-demo-notes"]
+
+[[content.notes]]
+_ref = "hide-notes-fragment"
+_template = "page/greeter/templates/content/notes/hide-notes-fragment.html.tmpl"
+_default = true
+_doc = "template fragment with display: none style"
+_handler = "treetop.Noop"
+
+[[content.notes]]
+_ref = "greeter-demo-notes"
+_template = "page/greeter/templates/content/notes/greeter-demo-notes.html.tmpl"
+_doc = "show notes associated with the demo page"
+_handler = "treetop.Noop"
+
+[[styles]]
+_ref = "site-styles"
+_default = true
+_doc = "Include page styles in document header"
+_template = "page/greeter/templates/styles.html.tmpl"
+_handler = "treetop.Noop"
+
+[[scripts]]
+_ref = "site-scripts"
+_default = true
+_doc = "Include page scripts"
+_template = "page/greeter/templates/scripts.html.tmpl"
+_handler = "treetop.Noop"
