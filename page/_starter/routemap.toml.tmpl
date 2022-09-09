@@ -1,0 +1,31 @@
+_ref = "[# .Name #]"
+_handler = "page.BaseHandler"
+_doc = "Shared base tempate and handler"
+_entrypoint = "/[# .Name #]"
+_template = "page/templates/base.html.tmpl"
+
+[[nav]]
+_ref = "page-nav"
+_template = "page/templates/nav.html.tmpl"
+_handler = 'treetop.Constant("[# .Name #]")'
+_default = true
+
+[[content]]
+_ref = "[# .Name #]-main-content"
+_default = true
+_doc = "[# .Name #] page content handler, TODO: add rsp.HandleSubView as needed"
+_path = "/[# .Name #]"
+
+[[styles]]
+_ref = "site-styles"
+_default = true
+_doc = "Include page styles in document header"
+_template = "[# .Templates #]/styles.html.tmpl"
+_handler = "treetop.Noop"
+
+[[scripts]]
+_ref = "site-scripts"
+_default = true
+_doc = "Include page scripts"
+_template = "[# .Templates #]/scripts.html.tmpl"
+_handler = "treetop.Noop"
