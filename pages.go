@@ -4,6 +4,7 @@ import (
 	"github.com/rur/treetop"
 	"github.com/rur/treetop-demo/page"
 
+	"github.com/rur/treetop-demo/page/inline"
 	"github.com/rur/treetop-demo/page/intro"
 )
 
@@ -11,5 +12,6 @@ import (
 
 func registerPages(hlp page.Helper, exec treetop.ViewExecutor) {
 	// register pages
+	inline.Routes(hlp, exec)
 	intro.Routes(hlp, exec)
 }

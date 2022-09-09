@@ -1,0 +1,73 @@
+_ref = "inline"
+_handler = "page.BaseHandler"
+_doc = "Shared base tempate and handler"
+_entrypoint = "/inline"
+_template = "page/templates/base.html.tmpl"
+
+[[nav]]
+_ref = "page-nav"
+_template = "page/templates/nav.html.tmpl"
+_handler = 'treetop.Constant("inline")'
+_default = true
+
+[[content]]
+_ref = "profile-form"
+_template = "page/inline/templates/content/profile-form.html.tmpl"
+_handler = "hlp.BindEnv(profileContentHandler)"
+_default = true
+_doc = "inline edit top level form handler"
+_path = "/inline"
+
+[[content.first-name]]
+_ref = "first-name-field"
+_template = "page/inline/templates/fields/input.html.tmpl"
+_handler = 'hlp.BindEnv(getFormFieldHandler("firstName"))'
+_default = true
+_doc = "first name field input handler"
+_path = "/inline/firstName"
+
+[[content.surname]]
+_ref = "surname-field"
+_template = "page/inline/templates/fields/input.html.tmpl"
+_handler = 'hlp.BindEnv(getFormFieldHandler("surname"))'
+_default = true
+_doc = "surname field input handler"
+_path = "/inline/surname"
+
+[[content.email]]
+_ref = "email-field"
+_template = "page/inline/templates/fields/email.html.tmpl"
+_handler = 'hlp.BindEnv(getFormFieldHandler("email"))'
+_default = true
+_doc = "profile email field input handler"
+_path = "/inline/email"
+
+[[content.country]]
+_ref = "country-field"
+_template = "page/inline/templates/fields/select.html.tmpl"
+_handler = 'hlp.BindEnv(getFormFieldHandler("country"))'
+_default = true
+_doc = "country select options handler"
+_path = "/inline/country"
+
+[[content.description]]
+_ref = "description-test-area"
+_template = "page/inline/templates/fields/textarea.html.tmpl"
+_handler = 'hlp.BindEnv(getFormFieldHandler("description"))'
+_default = true
+_doc = "description text input handler"
+_path = "/inline/description"
+
+[[styles]]
+_ref = "site-styles"
+_default = true
+_doc = "Include page styles in document header"
+_template = "page/inline/templates/styles.html.tmpl"
+_handler = "treetop.Noop"
+
+[[scripts]]
+_ref = "site-scripts"
+_default = true
+_doc = "Include page scripts"
+_template = "page/inline/templates/scripts.html.tmpl"
+_handler = "treetop.Noop"
