@@ -6,13 +6,13 @@ import (
 	"net/url"
 
 	"github.com/rur/treetop"
-	"github.com/rur/treetop-demo/page"
 	"github.com/rur/treetop-demo/site"
 )
 
-// profileContentHandler
+// profileFormHandler
+// doc: handles top level of the form request
 // extends: content
-func profileContentHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+func profileFormHandler(form *FormData, env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
 	return struct {
 		ViewTree    string
 		FirstName   interface{}
@@ -33,15 +33,8 @@ func profileContentHandler(env *site.Env, rsp treetop.Response, req *http.Reques
 
 // getFormFieldHandler will create a request handler for an editable
 // field of the FormData object
-func getFormFieldHandler(field string) page.ViewHandlerWithEnv {
-	return func(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
-		form, err := loadFormData(rsp, req)
-		if err != nil {
-			env.ErrorLog.Printf("inline page getFormFieldHandler %q, cookie store error: %s", field, err)
-			pageErrorMessage(rsp, req, "Failed to parse form", http.StatusBadRequest)
-			return nil
-		}
-
+func getFormFieldHandler(field string) handlerWithResources {
+	return func(form *FormData, env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
 		// data structure to be passed to the template
 		data := struct {
 			Field        string

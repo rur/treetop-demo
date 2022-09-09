@@ -19,42 +19,42 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	profileForm := inline.NewDefaultSubView(
 		"content",
 		"page/inline/templates/content/profile-form.html.tmpl",
-		hlp.BindEnv(profileContentHandler),
+		hlp.BindEnv(bindResources(profileFormHandler)),
 	)
 
 	// [[content.country]]
 	countryField := profileForm.NewDefaultSubView(
 		"country",
 		"page/inline/templates/fields/select.html.tmpl",
-		hlp.BindEnv(getFormFieldHandler("country")),
+		hlp.BindEnv(bindResources(getFormFieldHandler("country"))),
 	)
 
 	// [[content.description]]
 	descriptionTestArea := profileForm.NewDefaultSubView(
 		"description",
 		"page/inline/templates/fields/textarea.html.tmpl",
-		hlp.BindEnv(getFormFieldHandler("description")),
+		hlp.BindEnv(bindResources(getFormFieldHandler("description"))),
 	)
 
 	// [[content.email]]
 	emailField := profileForm.NewDefaultSubView(
 		"email",
 		"page/inline/templates/fields/email.html.tmpl",
-		hlp.BindEnv(getFormFieldHandler("email")),
+		hlp.BindEnv(bindResources(getFormFieldHandler("email"))),
 	)
 
 	// [[content.first-name]]
 	firstNameField := profileForm.NewDefaultSubView(
 		"first-name",
 		"page/inline/templates/fields/input.html.tmpl",
-		hlp.BindEnv(getFormFieldHandler("firstName")),
+		hlp.BindEnv(bindResources(getFormFieldHandler("firstName"))),
 	)
 
 	// [[content.surname]]
 	surnameField := profileForm.NewDefaultSubView(
 		"surname",
 		"page/inline/templates/fields/input.html.tmpl",
-		hlp.BindEnv(getFormFieldHandler("surname")),
+		hlp.BindEnv(bindResources(getFormFieldHandler("surname"))),
 	)
 
 	// [[nav]]
