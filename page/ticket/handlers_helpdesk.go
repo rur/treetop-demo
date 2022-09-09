@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/rur/treetop"
+	"github.com/rur/treetop-demo/page/ticket/inputs"
 	"github.com/rur/treetop-demo/site"
 )
 
@@ -82,12 +83,51 @@ func submitHelpDeskTicketHandler(env *site.Env, rsp treetop.Response, req *http.
 // Method: GET
 // Doc: Options for notifying help desk of who reported the issue
 func helpdeskReportedByHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+	query := req.URL.Query()
 	data := struct {
-		HandlerInfo string
-		FindUser    interface{}
+		ReportedBy         string
+		ReportedByUser     string
+		ReportedByCustomer string
+		FindUser           interface{}
+		CustomerList       []string
+		CustomerContact    string
 	}{
-		HandlerInfo: "ticket Page helpdeskReportedByHandler",
-		FindUser:    rsp.HandleSubView("find-user", req),
+		ReportedBy: query.Get("reported-by"),
+	}
+	// Use allow-list for input validation when possible
+	switch data.ReportedBy {
+	case "team-member":
+		// Now parse extra input for this setting
+		data.ReportedByUser = query.Get("reported-by-user")
+		data.FindUser = rsp.HandleSubView("find-user", req)
+	case "customer":
+		// Would otherwise be loaded from a customer database
+		data.CustomerList = []string{
+			"Example Customer 0",
+			"Example Customer 1",
+			"Example Customer 2",
+			"Example Customer 3",
+			"Example Customer A",
+			"Example Customer B",
+			"Example Customer C",
+			"Example Customer D",
+			"Example Customer E",
+		}
+		if rBC := query.Get("reported-by-customer"); rBC != "" {
+			for _, cst := range data.CustomerList {
+				if cst == rBC {
+					// accept the input when it matches a known customer
+					data.ReportedByCustomer = rBC
+					break
+				}
+			}
+		}
+		data.CustomerContact = query.Get("customer-contact")
+	case "myself":
+		// no additional information required
+	default:
+		// default for empty or unrecognized input
+		data.ReportedBy = ""
 	}
 	return data
 }
@@ -97,10 +137,12 @@ func helpdeskReportedByHandler(env *site.Env, rsp treetop.Response, req *http.Re
 // Method: GET
 // Doc: query string to find a user to select
 func findHelpdeskReportedByHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
-	data := struct {
-		HandlerInfo string
+	query := req.URL.Query()
+	return struct {
+		Results     []string
+		QueryString string
 	}{
-		HandlerInfo: "ticket Page findHelpdeskReportedByHandler",
+		QueryString: query.Get("search-query"),
+		Results:     inputs.SearchForUser(query.Get("search-query")),
 	}
-	return data
 }
