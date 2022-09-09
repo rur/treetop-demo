@@ -1,0 +1,20 @@
+_ref = "intro"
+_handler = "hlp.BindEnv(introHandler)"
+_doc = "Base HTML template for intro page"
+_entrypoint = "/"
+_template = "page/templates/base.html.tmpl"
+
+[[nav]]
+_ref = "page-nav"
+_template = "page/templates/nav.html.tmpl"
+_handler = 'treetop.Constant("intro")'
+_default = true
+
+[[content]]
+_ref = "page-landing"
+_template = "page/intro/templates/content/page-landing.html.tmpl"
+_handler = "treetop.Noop"
+_default = true
+_doc = "Landing content view for the intro page URI"
+_method = "GET"
+_path = "/"
