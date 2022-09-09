@@ -21,11 +21,13 @@ func newHelpdeskTicketHandler(env *site.Env, rsp treetop.Response, req *http.Req
 		AttachmentList interface{}
 		FormMessage    interface{}
 		ReportedBy     interface{}
+		Notes          interface{}
 	}{
 		HandlerInfo:    "ticket Page newHelpdeskTicketHandler",
 		AttachmentList: rsp.HandleSubView("attachment-list", req),
 		FormMessage:    rsp.HandleSubView("form-message", req),
 		ReportedBy:     rsp.HandleSubView("reported-by", req),
+		Notes:          rsp.HandleSubView("notes", req),
 	}
 	return data
 }

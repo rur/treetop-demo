@@ -23,6 +23,11 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	)
 
 	// [[content.form]]
+	getDepartmentForm := ticketFormContent.NewDefaultSubView(
+		"form",
+		"page/ticket/templates/content/form/get-department-form.html.tmpl",
+		hlp.BindEnv(getDepartmentFormHandler),
+	)
 	newHelpdeskTicket := ticketFormContent.NewSubView(
 		"form",
 		"page/ticket/templates/content/form/new-helpdesk-ticket.html.tmpl",
@@ -91,7 +96,9 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	)
 
 	hlp.HandleGET("/ticket",
-		exec.NewViewHandler(ticketFormContent).PageOnly())
+		exec.NewViewHandler(ticketFormContent))
+	hlp.HandleGET("/ticket/get-form",
+		exec.NewViewHandler(getDepartmentForm).FragmentOnly())
 	hlp.HandleGET("/ticket/helpdesk/new",
 		exec.NewViewHandler(newHelpdeskTicket))
 	hlp.HandlePOST("/ticket/helpdesk/upload-attachment",

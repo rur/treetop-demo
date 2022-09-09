@@ -15,8 +15,19 @@ _ref = "ticket-form-content"
 _template = "page/ticket/templates/content/ticket-form-content.html.tmpl"
 _handler = "hlp.BindEnv(ticketFormContentHandler)"
 _default = true
+_partial = true
 _doc = "Landing page for ticket wizard"
 _path = "/ticket"
+_method = "GET"
+
+[[content.form]]
+_ref = "get-department-form"
+_doc = "redirect request to correct form or show placeholder message"
+_template = "page/ticket/templates/content/form/get-department-form.html.tmpl"
+_handler = "hlp.BindEnv(getDepartmentFormHandler)"
+_default = true
+_fragment = true
+_path = "/ticket/get-form"
 _method = "GET"
 
 [[content.form]]
