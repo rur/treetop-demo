@@ -1,31 +1,44 @@
 <div id="form" class="-generated-block -generated-block-partial">
-    <code>new-helpdesk-ticket</code>
-    <h3>Block attachment-list</h3>
-    <ul>
-        
-        <li><form action="/ticket/helpdesk/upload-attachment" method="POST" treetop><button>uploaded-helpdesk-files</button></form></li>
-        
-    </ul>
-    {{ block "attachment-list" .AttachmentList }}
-    <div id="attachment-list"> default for block named attachment-list </div>
-    {{ end }}
-    
-    <h3>Block form-message</h3>
-    <ul>
-        <li><form action="/ticket/helpdesk/submit" method="POST" treetop><button>submit-help-desk-ticket</button></form></li>
-        
-    </ul>
-    {{ block "form-message" .FormMessage }}
-    <div id="form-message"> default for block named form-message </div>
-    {{ end }}
-    
-    <h3>Block reported-by</h3>
-    <ul>
-        <li><button treetop-link="/ticket/helpdesk/update-reported-by">helpdesk-reported-by*</button></li>
-        
-    </ul>
-    {{ block "reported-by" .ReportedBy }}
-    <div id="reported-by"> default for block named reported-by </div>
-    {{ end }}
-    
+  <code>new-helpdesk-ticket</code>
+  <h3>Block attachment-list</h3>
+  <ul>
+    <li>
+      <form action="/ticket/helpdesk/upload-attachment" method="POST" treetop>
+        <button>uploaded-helpdesk-files</button>
+      </form>
+    </li>
+  </ul>
+  {{ block "attachment-list" .AttachmentList }}
+    <div id="attachment-list">default for block named attachment-list</div>
+  {{ end }}
+
+
+  <h3>Block form-message</h3>
+  <ul>
+    <li>
+      <form action="/ticket/helpdesk/submit" method="POST" treetop>
+        <button>submit-help-desk-ticket</button>
+      </form>
+    </li>
+  </ul>
+  {{ block "form-message" .FormMessage }}
+    <div id="form-message">default for block named form-message</div>
+  {{ end }}
+
+
+  <h3>Block reported-by</h3>
+  <ul>
+    <li>
+      <button treetop-link="/ticket/helpdesk/update-reported-by">
+        helpdesk-reported-by*
+      </button>
+    </li>
+  </ul>
+
+  {{ block "reported-by" .ReportedBy }}
+    <div id="reported-by">default for block named reported-by</div>
+  {{ end }}
+
+  {{ template "notes" .Notes }}
+
 </div>

@@ -48,6 +48,13 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		hlp.BindEnv(submitHelpDeskTicketHandler),
 	)
 
+	// [[content.form.notes]]
+	newHelpdeskTicket.NewDefaultSubView(
+		"notes",
+		"page/ticket/templates/content/form/notes/new-helpdesk-notes.html.tmpl",
+		treetop.Noop,
+	)
+
 	// [[content.form.reported-by]]
 	helpdeskReportedBy := newHelpdeskTicket.NewDefaultSubView(
 		"reported-by",
@@ -60,13 +67,6 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		"find-user",
 		"page/ticket/templates/content/form/reported-by/find-user/find-helpdesk-reported-by.html.tmpl",
 		hlp.BindEnv(findHelpdeskReportedByHandler),
-	)
-
-	// [[content.formnotes]]
-	ticketFormContent.NewDefaultSubView(
-		"formnotes",
-		"page/ticket/templates/content/formnotes/new-helpdesk-notes.html.tmpl",
-		treetop.Noop,
 	)
 
 	// [[nav]]

@@ -54,9 +54,9 @@ _path = "/ticket/helpdesk/submit"
 _method = "POST"
 _doc = "process creation of a new help desk ticket"
 
-[[content.formnotes]]
+[[content.form.notes]]
 _ref = "new-helpdesk-notes"
-_template = "page/ticket/templates/content/formnotes/new-helpdesk-notes.html.tmpl"
+_template = "page/ticket/templates/content/form/notes/new-helpdesk-notes.html.tmpl"
 _default = true
 _handler = "treetop.Noop"
 _doc = "Show this when helpdesk form is loaded"
