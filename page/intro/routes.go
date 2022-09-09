@@ -12,7 +12,7 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 
 	intro := treetop.NewView(
 		"page/templates/base.html.tmpl",
-		hlp.BindEnv(introHandler),
+		page.BaseHandler,
 	)
 
 	// [[content]]

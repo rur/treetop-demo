@@ -1,5 +1,5 @@
 _ref = "intro"
-_handler = "hlp.BindEnv(introHandler)"
+_handler = "page.BaseHandler"
 _doc = "Base HTML template for intro page"
 _entrypoint = "/"
 _template = "page/templates/base.html.tmpl"

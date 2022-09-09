@@ -4,10 +4,20 @@ import (
 	"net/http"
 
 	"github.com/rur/treetop"
-	"github.com/rur/treetop-demo/site"
 )
 
-// ExampleSharedHandler can be used as a handler by multiple pages
-func ExampleSharedHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
-	return "Example"
+// BaseHandler can be used as a handler by multiple pages
+func BaseHandler(rsp treetop.Response, req *http.Request) interface{} {
+	return struct {
+		Content interface{}
+		Nav     interface{}
+		Scripts interface{}
+		Styles  interface{}
+	}{
+		Content: rsp.HandleSubView("content", req),
+		Nav:     rsp.HandleSubView("nav", req),
+		Scripts: rsp.HandleSubView("scripts", req),
+		Styles:  rsp.HandleSubView("styles", req),
+	}
+
 }
