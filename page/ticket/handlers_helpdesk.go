@@ -16,17 +16,24 @@ import (
 // Method: GET
 // Doc: Form for creating helpdesk tickets specifically
 func newHelpdeskTicketHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+	if treetop.IsTemplateRequest(req) {
+		// replace existing browser history entry with current URL
+		rsp.ReplacePageURL(req.URL.String())
+	}
+	query := req.URL.Query()
 	data := struct {
-		HandlerInfo    string
+		ReportedBy     interface{}
 		AttachmentList interface{}
 		FormMessage    interface{}
-		ReportedBy     interface{}
 		Notes          interface{}
+		Description    string
+		Urgency        string
 	}{
-		HandlerInfo:    "ticket Page newHelpdeskTicketHandler",
+		ReportedBy:     rsp.HandleSubView("reported-by", req),
 		AttachmentList: rsp.HandleSubView("attachment-list", req),
 		FormMessage:    rsp.HandleSubView("form-message", req),
-		ReportedBy:     rsp.HandleSubView("reported-by", req),
+		Description:    query.Get("description"),
+		Urgency:        query.Get("urgency"),
 		Notes:          rsp.HandleSubView("notes", req),
 	}
 	return data
