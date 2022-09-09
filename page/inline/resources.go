@@ -20,7 +20,7 @@ type handlerWithResources func(*FormData, *site.Env, treetop.Response, *http.Req
 func bindResources(f handlerWithResources) page.ViewHandlerWithEnv {
 	return func(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
 		if data, ok := req.Context().Value(formDataKey).(*FormData); ok {
-			env.InfoLog.Println("FormData loaded from context")
+			// previously loaded FormData obtained from request context
 			return f(data, env, rsp, req)
 		}
 
@@ -29,7 +29,7 @@ func bindResources(f handlerWithResources) page.ViewHandlerWithEnv {
 			pageErrorMessage(rsp, req, "Failed to parse form", http.StatusBadRequest)
 			return nil
 		} else {
-			env.InfoLog.Println("FormData loaded from request cookie and added to context")
+			// FormData loaded from request cookie and added to context
 			return f(
 				data,
 				env,

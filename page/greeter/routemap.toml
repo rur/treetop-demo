@@ -26,6 +26,7 @@ _partial = true
 _doc = "display a welcome message and instructions"
 _method = "GET"
 _path = "/greeter"
+_includes = ["hide-notes-fragment"]
 
 [[content.message]]
 _ref = "greeting-message"
@@ -35,7 +36,6 @@ _doc = "show the greeting message"
 _partial = true
 _method = "GET"
 _path = "/greeter/greet"
-_includes = ["greeter-demo-notes"]
 
 [[content.notes]]
 _ref = "hide-notes-fragment"
@@ -49,6 +49,9 @@ _ref = "greeter-demo-notes"
 _template = "page/greeter/templates/content/notes/greeter-demo-notes.html.tmpl"
 _doc = "show notes associated with the demo page"
 _handler = "treetop.Noop"
+_path = "/greeter/notes"
+_fragment = true
+_method = "GET"
 
 [[styles]]
 _ref = "site-styles"

@@ -35,7 +35,7 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	)
 
 	// [[content.notes]]
-	greeterFormContent.NewDefaultSubView(
+	hideNotesFragment := greeterFormContent.NewDefaultSubView(
 		"notes",
 		"page/greeter/templates/content/notes/hide-notes-fragment.html.tmpl",
 		treetop.Noop,
@@ -68,11 +68,13 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	)
 
 	hlp.HandleGET("/greeter",
-		exec.NewViewHandler(greeterLandingScreen))
-	hlp.HandleGET("/greeter/greet",
 		exec.NewViewHandler(
-			greetingMessage,
-			greeterDemoNotes,
+			greeterLandingScreen,
+			hideNotesFragment,
 		))
+	hlp.HandleGET("/greeter/greet",
+		exec.NewViewHandler(greetingMessage))
+	hlp.HandleGET("/greeter/notes",
+		exec.NewViewHandler(greeterDemoNotes).FragmentOnly())
 
 }
