@@ -16,10 +16,57 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	)
 
 	// [[content]]
-	ticketMainContent := ticket.NewDefaultSubView(
+	ticketFormContent := ticket.NewDefaultSubView(
 		"content",
-		"page/ticket/templates/content/ticket-main-content.html.tmpl",
-		hlp.BindEnv(ticketMainContentHandler),
+		"page/ticket/templates/content/ticket-form-content.html.tmpl",
+		hlp.BindEnv(ticketFormContentHandler),
+	)
+
+	// [[content.form]]
+	newHelpdeskTicket := ticketFormContent.NewSubView(
+		"form",
+		"page/ticket/templates/content/form/new-helpdesk-ticket.html.tmpl",
+		hlp.BindEnv(newHelpdeskTicketHandler),
+	)
+
+	// [[content.form.attachment-list]]
+	newHelpdeskTicket.NewDefaultSubView(
+		"attachment-list",
+		"page/ticket/templates/content/form/attachment-list/helpdesk-attachment-file-list.html.tmpl",
+		hlp.BindEnv(helpdeskAttachmentFileListHandler),
+	)
+	uploadedHelpdeskFiles := newHelpdeskTicket.NewSubView(
+		"attachment-list",
+		"page/ticket/templates/content/form/attachment-list/uploaded-helpdesk-files.html.tmpl",
+		hlp.BindEnv(uploadedHelpdeskFilesHandler),
+	)
+
+	// [[content.form.form-message]]
+	submitHelpDeskTicket := newHelpdeskTicket.NewSubView(
+		"form-message",
+		"page/ticket/templates/content/form/form-message/submit-help-desk-ticket.html.tmpl",
+		hlp.BindEnv(submitHelpDeskTicketHandler),
+	)
+
+	// [[content.form.reported-by]]
+	helpdeskReportedBy := newHelpdeskTicket.NewDefaultSubView(
+		"reported-by",
+		"page/ticket/templates/content/form/reported-by/helpdesk-reported-by.html.tmpl",
+		hlp.BindEnv(helpdeskReportedByHandler),
+	)
+
+	// [[content.form.reported-by.find-user]]
+	findHelpdeskReportedBy := helpdeskReportedBy.NewDefaultSubView(
+		"find-user",
+		"page/ticket/templates/content/form/reported-by/find-user/find-helpdesk-reported-by.html.tmpl",
+		hlp.BindEnv(findHelpdeskReportedByHandler),
+	)
+
+	// [[content.formnotes]]
+	ticketFormContent.NewDefaultSubView(
+		"formnotes",
+		"page/ticket/templates/content/formnotes/new-helpdesk-notes.html.tmpl",
+		treetop.Noop,
 	)
 
 	// [[nav]]
@@ -43,7 +90,17 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		treetop.Noop,
 	)
 
-	hlp.Handle("/ticket",
-		exec.NewViewHandler(ticketMainContent).PageOnly())
+	hlp.HandleGET("/ticket",
+		exec.NewViewHandler(ticketFormContent).PageOnly())
+	hlp.HandleGET("/ticket/helpdesk/new",
+		exec.NewViewHandler(newHelpdeskTicket))
+	hlp.HandlePOST("/ticket/helpdesk/upload-attachment",
+		exec.NewViewHandler(uploadedHelpdeskFiles).FragmentOnly())
+	hlp.HandlePOST("/ticket/helpdesk/submit",
+		exec.NewViewHandler(submitHelpDeskTicket).FragmentOnly())
+	hlp.HandleGET("/ticket/helpdesk/update-reported-by",
+		exec.NewViewHandler(helpdeskReportedBy).FragmentOnly())
+	hlp.HandleGET("/ticket/helpdesk/find-reported-by",
+		exec.NewViewHandler(findHelpdeskReportedBy).FragmentOnly())
 
 }

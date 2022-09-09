@@ -11,12 +11,75 @@ _handler = 'treetop.Constant("ticket")'
 _default = true
 
 [[content]]
-_ref = "ticket-main-content"
-_template = "page/ticket/templates/content/ticket-main-content.html.tmpl"
-_handler = "hlp.BindEnv(ticketMainContentHandler)"
+_ref = "ticket-form-content"
+_template = "page/ticket/templates/content/ticket-form-content.html.tmpl"
+_handler = "hlp.BindEnv(ticketFormContentHandler)"
 _default = true
-_doc = "ticket page content handler, TODO: add rsp.HandleSubView as needed"
+_doc = "Landing page for ticket wizard"
 _path = "/ticket"
+_method = "GET"
+
+[[content.form]]
+_ref = "new-helpdesk-ticket"
+_template = "page/ticket/templates/content/form/new-helpdesk-ticket.html.tmpl"
+_handler = "hlp.BindEnv(newHelpdeskTicketHandler)"
+_partial = true
+_doc = "Form for creating helpdesk tickets specifically"
+_path = "/ticket/helpdesk/new"
+_method = "GET"
+
+[[content.form.attachment-list]]
+_ref = "helpdesk-attachment-file-list"
+_template = "page/ticket/templates/content/form/attachment-list/helpdesk-attachment-file-list.html.tmpl"
+_handler = "hlp.BindEnv(helpdeskAttachmentFileListHandler)"
+_fragment = true
+_default = true
+_doc = "Default helpdesk attachment file list template handler, parse file info from query string"
+
+[[content.form.attachment-list]]
+_ref = "uploaded-helpdesk-files"
+_template = "page/ticket/templates/content/form/attachment-list/uploaded-helpdesk-files.html.tmpl"
+_handler = "hlp.BindEnv(uploadedHelpdeskFilesHandler)"
+_fragment = true
+_path = "/ticket/helpdesk/upload-attachment"
+_method = "POST"
+_doc = "Load a list of uploaded files, save to storage and return metadata to the form"
+
+[[content.form.form-message]]
+_ref = "submit-help-desk-ticket"
+_template = "page/ticket/templates/content/form/form-message/submit-help-desk-ticket.html.tmpl"
+_handler = "hlp.BindEnv(submitHelpDeskTicketHandler)"
+_fragment = true
+_path = "/ticket/helpdesk/submit"
+_method = "POST"
+_doc = "process creation of a new help desk ticket"
+
+[[content.formnotes]]
+_ref = "new-helpdesk-notes"
+_template = "page/ticket/templates/content/formnotes/new-helpdesk-notes.html.tmpl"
+_default = true
+_handler = "treetop.Noop"
+_doc = "Show this when helpdesk form is loaded"
+
+[[content.form.reported-by]]
+_ref = "helpdesk-reported-by"
+_template = "page/ticket/templates/content/form/reported-by/helpdesk-reported-by.html.tmpl"
+_handler = "hlp.BindEnv(helpdeskReportedByHandler)"
+_fragment = true
+_default = true
+_path = "/ticket/helpdesk/update-reported-by"
+_method = "GET"
+_doc = "Options for notifying help desk of who reported the issue"
+
+[[content.form.reported-by.find-user]]
+_ref = "find-helpdesk-reported-by"
+_template = "page/ticket/templates/content/form/reported-by/find-user/find-helpdesk-reported-by.html.tmpl"
+_handler = "hlp.BindEnv(findHelpdeskReportedByHandler)"
+_fragment = true
+_default = true
+_path = "/ticket/helpdesk/find-reported-by"
+_method = "GET"
+_doc = "query string to find a user to select"
 
 [[styles]]
 _ref = "site-styles"

@@ -1,0 +1,21 @@
+<div id="content" class="-generated-block">
+    <code>ticket-form-content</code>
+    <h3>Block form</h3>
+    <ul>
+        <li><a href="/ticket/helpdesk/new" treetop>new-helpdesk-ticket</a></li>
+        
+    </ul>
+    {{ block "form" .Form }}
+    <div id="form"> default for block named form </div>
+    {{ end }}
+    
+    <h3>Block formnotes</h3>
+    <ul>
+        
+        
+    </ul>
+    {{ block "formnotes" .Formnotes }}
+    <div id="formnotes"> default for block named formnotes </div>
+    {{ end }}
+    
+</div>
