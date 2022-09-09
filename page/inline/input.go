@@ -28,7 +28,7 @@ func processInputEmail(form url.Values, field string) (string, string) {
 	if len(value) > 255 {
 		return value, "email address is too large"
 	}
-	if strings.ToLower(value) != strings.ToLower(confirm) {
+	if !strings.EqualFold(value, confirm) {
 		return value, "Email address does not match confirmation address."
 	}
 	if emailRE.MatchString(value) {

@@ -81,14 +81,14 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	hlp.Handle("/inline",
 		exec.NewViewHandler(profileForm).PageOnly())
 	hlp.Handle("/inline/country",
-		exec.NewViewHandler(countryField).PageOnly())
+		exec.NewViewHandler(countryField).FragmentOnly())
 	hlp.Handle("/inline/description",
-		exec.NewViewHandler(descriptionTestArea).PageOnly())
+		exec.NewViewHandler(descriptionTestArea).FragmentOnly())
 	hlp.Handle("/inline/email",
-		exec.NewViewHandler(emailField).PageOnly())
+		exec.NewViewHandler(emailField).FragmentOnly())
 	hlp.Handle("/inline/firstName",
-		exec.NewViewHandler(firstNameField).PageOnly())
+		exec.NewViewHandler(firstNameField).FragmentOnly())
 	hlp.Handle("/inline/surname",
-		exec.NewViewHandler(surnameField).PageOnly())
+		exec.NewViewHandler(surnameField).FragmentOnly())
 
 }

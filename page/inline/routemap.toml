@@ -23,6 +23,7 @@ _ref = "first-name-field"
 _template = "page/inline/templates/fields/input.html.tmpl"
 _handler = 'hlp.BindEnv(getFormFieldHandler("firstName"))'
 _default = true
+_fragment = true
 _doc = "first name field input handler"
 _path = "/inline/firstName"
 
@@ -31,6 +32,7 @@ _ref = "surname-field"
 _template = "page/inline/templates/fields/input.html.tmpl"
 _handler = 'hlp.BindEnv(getFormFieldHandler("surname"))'
 _default = true
+_fragment = true
 _doc = "surname field input handler"
 _path = "/inline/surname"
 
@@ -39,6 +41,7 @@ _ref = "email-field"
 _template = "page/inline/templates/fields/email.html.tmpl"
 _handler = 'hlp.BindEnv(getFormFieldHandler("email"))'
 _default = true
+_fragment = true
 _doc = "profile email field input handler"
 _path = "/inline/email"
 
@@ -47,6 +50,7 @@ _ref = "country-field"
 _template = "page/inline/templates/fields/select.html.tmpl"
 _handler = 'hlp.BindEnv(getFormFieldHandler("country"))'
 _default = true
+_fragment = true
 _doc = "country select options handler"
 _path = "/inline/country"
 
@@ -55,6 +59,7 @@ _ref = "description-test-area"
 _template = "page/inline/templates/fields/textarea.html.tmpl"
 _handler = 'hlp.BindEnv(getFormFieldHandler("description"))'
 _default = true
+_fragment = true
 _doc = "description text input handler"
 _path = "/inline/description"
 
