@@ -92,6 +92,67 @@ _path = "/ticket/helpdesk/find-reported-by"
 _method = "GET"
 _doc = "query string to find a user to select"
 
+[[content.form]]
+_ref = "new-software-ticket"
+_template = "page/ticket/templates/content/form/new-software-ticket.html.tmpl"
+_handler = "hlp.BindEnv(newSoftwareTicketHandler)"
+_partial = true
+_doc = "Form for creating software tickets specifically"
+_path = "/ticket/software/new"
+_method = "GET"
+
+[[content.form.assignee]]
+_ref = "view-software-assignee"
+_template = "page/ticket/templates/content/form/assignee/view-software-assignee.html.tmpl"
+_handler = "hlp.BindEnv(viewSoftwareAssigneeHandler)"
+_fragment = true
+_default = true
+_path = "/ticket/software/update-assignee"
+_doc = "Select multiple users as assignees"
+
+[[content.form.assignee.find-user]]
+_ref = "find-software-assignee"
+_template = "page/ticket/templates/content/form/assignee/find-user/find-software-assignee.html.tmpl"
+_handler = "hlp.BindEnv(findSoftwareAssigneeHandler)"
+_fragment = true
+_default = true
+_path = "/ticket/software/find-assignee"
+_method = "GET"
+_doc = "query string to find a user to select"
+
+[[content.form.attachment-list]]
+_ref = "software-attachment-file-list"
+_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+_handler = "hlp.BindEnv(attachmentFileListHandler)"
+_fragment = true
+_default = true
+_doc = "Default attachment file list template handler, parse file info from query string"
+
+[[content.form.attachment-list]]
+_ref = "uploaded-software-files"
+_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+_handler = "hlp.BindEnv(uploadedFilesHandler)"
+_fragment = true
+_path = "/ticket/software/upload-attachment"
+_method = "POST"
+_doc = "Load a list of uploaded files, save to storage and return metadata to the form"
+
+[[content.form.form-message]]
+_ref = "submit-software-ticket"
+_template = "page/ticket/templates/content/form/form-message/submit-software-ticket.html.tmpl"
+_handler = "hlp.BindEnv(submitSoftwareTicketHandler)"
+_fragment = true
+_path = "/ticket/software/submit"
+_method = "POST"
+_doc = "process creation of a new software department ticket"
+
+[[content.form.notes]]
+_ref = "new-software-notes"
+_template = "page/ticket/templates/content/form/notes/new-software-notes.html.tmpl"
+_default = true
+_handler = "treetop.Noop"
+_doc = "Show this when software form is loaded"
+
 [[content]]
 _ref = "issue-preview"
 _template = "page/ticket/templates/content/issue-preview.html.tmpl"

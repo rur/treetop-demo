@@ -74,6 +74,53 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		hlp.BindEnv(findHelpdeskReportedByHandler),
 	)
 
+	// [[content.form]]
+	newSoftwareTicket := ticketFormContent.NewSubView(
+		"form",
+		"page/ticket/templates/content/form/new-software-ticket.html.tmpl",
+		hlp.BindEnv(newSoftwareTicketHandler),
+	)
+
+	// [[content.form.assignee]]
+	viewSoftwareAssignee := newSoftwareTicket.NewDefaultSubView(
+		"assignee",
+		"page/ticket/templates/content/form/assignee/view-software-assignee.html.tmpl",
+		hlp.BindEnv(viewSoftwareAssigneeHandler),
+	)
+
+	// [[content.form.assignee.find-user]]
+	findSoftwareAssignee := viewSoftwareAssignee.NewDefaultSubView(
+		"find-user",
+		"page/ticket/templates/content/form/assignee/find-user/find-software-assignee.html.tmpl",
+		hlp.BindEnv(findSoftwareAssigneeHandler),
+	)
+
+	// [[content.form.attachment-list]]
+	newSoftwareTicket.NewDefaultSubView(
+		"attachment-list",
+		"page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl",
+		hlp.BindEnv(attachmentFileListHandler),
+	)
+	uploadedSoftwareFiles := newSoftwareTicket.NewSubView(
+		"attachment-list",
+		"page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl",
+		hlp.BindEnv(uploadedFilesHandler),
+	)
+
+	// [[content.form.form-message]]
+	submitSoftwareTicket := newSoftwareTicket.NewSubView(
+		"form-message",
+		"page/ticket/templates/content/form/form-message/submit-software-ticket.html.tmpl",
+		hlp.BindEnv(submitSoftwareTicketHandler),
+	)
+
+	// [[content.form.notes]]
+	newSoftwareTicket.NewDefaultSubView(
+		"notes",
+		"page/ticket/templates/content/form/notes/new-software-notes.html.tmpl",
+		treetop.Noop,
+	)
+
 	// [[content]]
 	issuePreview := ticket.NewSubView(
 		"content",
@@ -140,6 +187,16 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		exec.NewViewHandler(helpdeskReportedBy).FragmentOnly())
 	hlp.HandleGET("/ticket/helpdesk/find-reported-by",
 		exec.NewViewHandler(findHelpdeskReportedBy).FragmentOnly())
+	hlp.HandleGET("/ticket/software/new",
+		exec.NewViewHandler(newSoftwareTicket))
+	hlp.Handle("/ticket/software/update-assignee",
+		exec.NewViewHandler(viewSoftwareAssignee).FragmentOnly())
+	hlp.HandleGET("/ticket/software/find-assignee",
+		exec.NewViewHandler(findSoftwareAssignee).FragmentOnly())
+	hlp.HandlePOST("/ticket/software/upload-attachment",
+		exec.NewViewHandler(uploadedSoftwareFiles).FragmentOnly())
+	hlp.HandlePOST("/ticket/software/submit",
+		exec.NewViewHandler(submitSoftwareTicket).FragmentOnly())
 	hlp.HandleGET("/ticket/software/preview",
 		exec.NewViewHandler(previewSoftwareTicket).PageOnly())
 	hlp.HandleGET("/ticket/helpdesk/preview",
