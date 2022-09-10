@@ -23,7 +23,7 @@ _method = "GET"
 [[content.form]]
 _ref = "get-department-form"
 _doc = "redirect request to correct form or show placeholder message"
-_template = "page/ticket/templates/content/form/get-department-form.html.tmpl"
+_template = "page/ticket/templates/content/form/choose-department-message.html.tmpl"
 _handler = "hlp.BindEnv(getDepartmentFormHandler)"
 _default = true
 _fragment = true

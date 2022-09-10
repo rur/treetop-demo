@@ -25,7 +25,7 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	// [[content.form]]
 	getDepartmentForm := ticketFormContent.NewDefaultSubView(
 		"form",
-		"page/ticket/templates/content/form/get-department-form.html.tmpl",
+		"page/ticket/templates/content/form/choose-department-message.html.tmpl",
 		hlp.BindEnv(getDepartmentFormHandler),
 	)
 	newHelpdeskTicket := ticketFormContent.NewSubView(
