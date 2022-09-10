@@ -1,7 +1,9 @@
 package ticket
 
 import (
+	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/rur/treetop"
@@ -52,17 +54,109 @@ func newHelpdeskTicketHandler(env *site.Env, rsp treetop.Response, req *http.Req
 	return data
 }
 
+const (
+	formMessageInfo = iota
+	formMessageWarning
+	formMessageError
+)
+
 // Ref: submit-help-desk-ticket
 // Block: form-message
 // Method: POST
 // Doc: process creation of a new help desk ticket
 func submitHelpDeskTicketHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+	var redirected bool
+	defer func() {
+		if !redirected && treetop.IsTemplateRequest(req) && len(req.PostForm) > 0 {
+			// quality-of-life improvement, replace browser URL to include latest
+			// form state so that a refresh will preserve inputs
+			newURL, _ := url.Parse("/ticket/helpdesk/new")
+			q := req.PostForm
+			q.Del("file-upload")
+			newURL.RawQuery = q.Encode()
+			newURL.Fragment = "form-message"
+			// replace existing browser history entry with current URL
+			rsp.ReplacePageURL(newURL.String())
+		}
+	}()
+
+	// If all inputs are valid this handler will redirect the web browser
+	// either to the newly created ticket or to a blank form.
+	//
+	// If creation cannot proceed for any reason, this endpoint will render
+	// a form message HTML framgent with an alert level: info, warning or error
 	data := struct {
-		HandlerInfo string
+		Level           int
+		Message         string
+		Title           string
+		ConfirmCritical bool
 	}{
-		HandlerInfo: "ticket Page submitHelpDeskTicketHandler",
+		Level: formMessageInfo,
 	}
-	return data
+
+	if err := req.ParseForm(); err != nil {
+		rsp.Status(http.StatusBadRequest)
+		data.Level = formMessageError
+		data.Title = "Request Error"
+		data.Message = "Failed to read form data, try again or contact support."
+		return data
+	}
+	ticket := inputs.HelpdeskTicketFromQuery(req.PostForm)
+
+	// validation rules for creating a new Help Desk ticket
+	// NOTE, Do not take client-side validation for granted
+	if ticket.Summary == "" {
+		data.Level = formMessageWarning
+		data.Title = "Missing input"
+		data.Message = "Ticket title is required"
+		return data
+	}
+	switch ticket.ReportedBy {
+	case "team-member":
+		if ticket.ReportedByUser == "" {
+			rsp.Status(http.StatusBadRequest)
+			data.Level = formMessageWarning
+			data.Title = "Missing input"
+			data.Message = "Please sepecify which user reported the issue"
+			return data
+		}
+	case "customer":
+		if ticket.ReportedByCustomer == "" {
+			rsp.Status(http.StatusBadRequest)
+			data.Level = formMessageWarning
+			data.Title = "Missing input"
+			data.Message = "Please sepecify which customer reported the issue"
+			return data
+		}
+	case "":
+		rsp.Status(http.StatusBadRequest)
+		data.Level = formMessageWarning
+		data.Title = "Missing input"
+		data.Message = "Please sepecify for whom this issue is being reported"
+		return data
+	}
+	if ticket.Urgency == "" {
+		rsp.Status(http.StatusBadRequest)
+		data.Level = formMessageWarning
+		data.Title = "Invalid input"
+		data.Message = fmt.Sprintf("Invalid ticket urgency value '%s'",
+			req.PostForm.Get("urgency"))
+		return data
+	}
+
+	if ticket.Urgency == "critical" && req.PostForm.Get("confirm-critical") != "yes" {
+		data.ConfirmCritical = true
+		return data
+	}
+
+	// ticket is valid redirect to preview endpoint
+	previewURL := url.URL{
+		Path:     "/ticket/helpdesk/preview",
+		RawQuery: ticket.RawQuery(),
+	}
+	treetop.Redirect(rsp, req, previewURL.String(), http.StatusSeeOther)
+	redirected = true
+	return nil
 }
 
 // Ref: helpdesk-reported-by

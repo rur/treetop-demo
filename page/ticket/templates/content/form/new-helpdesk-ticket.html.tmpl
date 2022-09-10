@@ -12,17 +12,27 @@
         required="required"
       >
         <option
-          {{ if eq .Urgency "critical" }}selected{{ end }}value="critical"
+          {{ if eq .Urgency "critical" }}selected{{ end }}
+          value="critical"
         >
           Critical (requires immediate attention!)
         </option>
-        <option {{ if eq .Urgency "major" }}selected{{ end }}value="major">
+        <option
+          {{ if eq .Urgency "major" }}selected{{ end }}
+          value="major"
+        >
           Major
         </option>
-        <option {{ if eq .Urgency "normal" }}selected{{ end }}value="normal">
+        <option
+          {{ if eq .Urgency "normal" }}selected{{ end }}
+          value="normal"
+        >
           Normal
         </option>
-        <option {{ if eq .Urgency "minor" }}selected{{ end }}value="minor">
+        <option
+          {{ if eq .Urgency "minor" }}selected{{ end }}
+          value="minor"
+        >
           Minor
         </option>
       </select>
