@@ -41,13 +41,26 @@ func newSystemsTicketHandler(env *site.Env, rsp treetop.Response, req *http.Requ
 // Block: component-tags
 // Doc: Load form input group for the component tags selector
 func systemsComponentTagsInputGroupHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+	query := req.URL.Query()
 	data := struct {
-		HandlerInfo string
-		TagSearch   interface{}
+		Tags      []string
+		TagSearch interface{}
+		AutoFocus bool
 	}{
-		HandlerInfo: "ticket Page systemsComponentTagsInputGroupHandler",
-		TagSearch:   rsp.HandleSubView("tag-search", req),
+		TagSearch: rsp.HandleSubView("tag-search", req),
+		Tags:      query["tags"],
 	}
+
+	if add := query.Get("add-tag"); add != "" {
+		data.AutoFocus = true
+		for _, t := range data.Tags {
+			if t == add {
+				goto Next
+			}
+		}
+		data.Tags = append(data.Tags, add)
+	}
+Next:
 	return data
 }
 
@@ -55,10 +68,28 @@ func systemsComponentTagsInputGroupHandler(env *site.Env, rsp treetop.Response, 
 // Block: tag-search
 // Doc: fuzzy match query to available systems component tags
 func systemsComponentTagSearchHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+	query := req.URL.Query()
+	existingTags := make(map[string]struct{})
+	for _, t := range query["tags"] {
+		existingTags[t] = struct{}{}
+	}
 	data := struct {
-		HandlerInfo string
+		Query   string
+		Results []string
 	}{
-		HandlerInfo: "ticket Page systemsComponentTagSearchHandler",
+		Query: query.Get("tag-query"),
+	}
+	placeHolder := []string{
+		"Example Tag 1",
+		"Example Tag 2",
+		"Example Tag A",
+		"Example Tag B",
+		"Example Tag C",
+	}
+	for _, p := range placeHolder {
+		if _, ok := existingTags[p]; !ok {
+			data.Results = append(data.Results, p)
+		}
 	}
 	return data
 }
