@@ -1,1 +1,1 @@
-web: bin/treetop-demo $PORT --prod
+web: bin/treetop-demo $PORT

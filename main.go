@@ -1,106 +1,108 @@
 package main
 
 import (
+	"embed"
+	"flag"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
-	"regexp"
+	"os"
+	"path/filepath"
 
 	"github.com/rur/treetop"
 
-	"os"
-
-	"github.com/rur/treetop-demo/assets"
-	"github.com/rur/treetop-demo/greeter"
-	"github.com/rur/treetop-demo/inline"
-	"github.com/rur/treetop-demo/ticket"
+	"github.com/rur/treetop-demo/page"
+	"github.com/rur/treetop-demo/site"
 )
 
-var portReg = regexp.MustCompile(`^\d+$`)
+var (
+	// CLI Flags
+	port    uint
+	devMode bool
 
-func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/favicon.ico", func(w http.ResponseWriter, req *http.Request) {
-		http.Redirect(w, req, "https://golang.org/favicon.ico", http.StatusSeeOther)
-	})
-	mux.Handle("/treetop.js", treetop.ServeClientLibrary)
+	//go:embed static/public
+	//go:embed static/js
+	//go:embed static/styles
+	assets embed.FS
 
-	devMode := true
-	port := "3000"
-	for i, arg := range os.Args[1:] {
-		if arg == "--prod" {
-			devMode = false
-		} else if portReg.MatchString(arg) {
-			port = arg
-		} else {
-			log.Fatalf("Invalid argument [%d] '%s'", i, arg)
-		}
-	}
+	//go:embed page/*/templates
+	//go:embed page/templates
+	templates embed.FS
+)
 
-	// Register routes for demo apps
-	greeter.Setup(mux, devMode)
-	inline.Setup(mux, devMode)
-	ticket.Setup(mux, devMode)
-
-	infoSetup(mux, devMode)
-
-	fmt.Printf("serving on http://0.0.0.0:%s/\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, mux))
+func init() {
+	flag.UintVar(&port, "port", 8000, "Port number to bind to")
+	flag.BoolVar(&devMode, "dev", false, "Development mode, disable caching and other production optimizations")
+	flag.Parse()
 }
 
-// infoSetup will create template, handlers and bind to routes for the demo landing page
-func infoSetup(mux *http.ServeMux, devMode bool) {
-	// define handler for home page
-	var exec treetop.ViewExecutor = &treetop.FileExecutor{
-		KeyedString: map[string]string{
-			"local://base.html":     assets.BaseHTML,
-			"local://nav-home.html": assets.NavHTML(assets.IntroNav),
-			"local://nav-more.html": assets.NavHTML(assets.MoreNav),
-			"local://nav.html":      assets.NavHTML(assets.NoPage),
-			"local://notfound.html": `
-				<div class="text-center">
-					<hr class="mb-3">
-					<h3>404 Not Found</h3>
-					<p>No page was found for this path.</p>
-					<p>You can file a (real) issue here <a href="https://github.com/rur/treetop/issues">treetop/issues</a></p>
-				</div>
-				`,
-		},
-	}
+func main() {
+	var (
+		staticFS http.FileSystem
+		exec     treetop.ViewExecutor
+	)
 	if devMode {
-		exec = &treetop.DeveloperExecutor{
-			ViewExecutor: exec,
+		// all static assets and templates should be read from disk at runtime
+		fmt.Println("Server running in DEVELOPMENT MODE")
+		staticFS = http.Dir(filepath.Join(".", "static"))
+		exec = &treetop.DeveloperExecutor{ // force templates to be re-parsed for every request
+			ViewExecutor: &treetop.FileSystemExecutor{
+				// this assumes you are runing the dev server from your project root
+				FS:          http.Dir("."),
+				KeyedString: page.KeyedTemplates,
+			},
+		}
+	} else {
+		// static assets and templates are embedded at compile time
+		dir, _ := fs.Sub(assets, "static")
+		staticFS = http.FS(dir)
+		exec = &treetop.FileSystemExecutor{
+			FS:          http.FS(templates),
+			KeyedString: page.KeyedTemplates,
 		}
 	}
 
-	base := treetop.
-		NewView("local://base.html", treetop.Noop)
+	// Initialize Env singleton, it will be bound to handlers using the page.BindEnv helper
+	env := &site.Env{
+		// EDITME: initialize site-wide stuff here, for example...
+		HTTPS:    !devMode,
+		ErrorLog: log.New(os.Stderr, "[error]: ", log.Llongfile),
+		WarnLog:  log.New(os.Stdout, "[warn]: ", log.Llongfile),
+		InfoLog:  log.New(os.Stdout, "[info]: ", log.Llongfile),
+	}
 
-	mux.Handle("/more", exec.NewViewHandler(
-		base.NewSubView("content", "more.html", treetop.Noop),
-		base.NewSubView("nav", "local://nav-more.html", treetop.Noop),
-	).PageOnly())
+	// EDITME: it is recommended to replace this with your preferred routing library
+	m := &http.ServeMux{}
 
-	homeHandler := exec.NewViewHandler(
-		base.NewSubView("content", "intro.html", treetop.Noop),
-		base.NewSubView("nav", "local://nav-home.html", treetop.Noop),
-	).PageOnly()
-
-	notFoundHandler := exec.NewViewHandler(
-		base.NewSubView("content", "local://notfound.html", treetop.Noop),
-		base.NewSubView("nav", "local://nav.html", treetop.Noop),
-	).PageOnly()
-
-	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		switch req.URL.Path {
-		case "/", "":
-			homeHandler.ServeHTTP(w, req)
-		default:
-			notFoundHandler.ServeHTTP(w, req)
-		}
-	})
+	// see ./pages.go
+	registerPages(page.Helper{
+		Env: env,
+		Mux: m,
+	}, exec)
 
 	if errs := exec.FlushErrors(); len(errs) > 0 {
-		log.Fatalf("Error(s) loading demo templates:\n%s", errs)
+		// flush any template related errors from the routes config
+		// templates are eagerly loaded and parsed to try surface issues at startup
+		log.Fatalf("Template errors:\n%s", errs)
 	}
+
+	{
+		// static files
+		public, _ := fs.Sub(assets, "static/public")
+		m.Handle("/favicon.ico", http.FileServer(http.FS(public)))
+		m.Handle("/humans.txt", http.FileServer(http.FS(public)))
+		m.Handle("/js/treetop.js", treetop.ServeClientLibrary)
+
+		// static folders
+		m.Handle("/js/", http.FileServer(staticFS))
+		m.Handle("/styles/", http.FileServer(staticFS))
+		m.Handle("/public/", http.FileServer(staticFS))
+	}
+
+	addr := fmt.Sprintf(":%d", port)
+	fmt.Printf("Starting github.com/rur/treetop-demo server at %s\n", addr)
+
+	// Bind to an addr and pass our router in
+	log.Fatal(http.ListenAndServe(addr, m))
 }

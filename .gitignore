@@ -13,3 +13,5 @@
 
 # avoid the built binary from being checked in
 treetop-demo
+
+local

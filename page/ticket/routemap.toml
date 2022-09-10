@@ -1,0 +1,262 @@
+_ref = "ticket"
+_handler = "page.BaseHandler"
+_doc = "Shared base tempate and handler"
+_entrypoint = "/ticket"
+_template = "page/templates/base.html.tmpl"
+
+[[nav]]
+_ref = "page-nav"
+_template = "page/templates/nav.html.tmpl"
+_handler = 'treetop.Constant("ticket")'
+_default = true
+
+[[content]]
+_ref = "ticket-form-content"
+_template = "page/ticket/templates/content/ticket-form-content.html.tmpl"
+_handler = "hlp.BindEnv(ticketFormContentHandler)"
+_default = true
+_partial = true
+_doc = "Landing page for ticket wizard"
+_path = "/ticket"
+_method = "GET"
+
+	[[content.form]]
+	_ref = "get-department-form"
+	_doc = "redirect request to correct form or show placeholder message"
+	_template = "page/ticket/templates/content/form/choose-department-message.html.tmpl"
+	_handler = "hlp.BindEnv(getDepartmentFormHandler)"
+	_default = true
+	_fragment = true
+	_path = "/ticket/get-form"
+	_method = "GET"
+
+	[[content.form]]
+	_ref = "new-helpdesk-ticket"
+	_template = "page/ticket/templates/content/form/new-helpdesk-ticket.html.tmpl"
+	_handler = "hlp.BindEnv(newHelpdeskTicketHandler)"
+	_partial = true
+	_doc = "Form for creating helpdesk tickets specifically"
+	_path = "/ticket/helpdesk/new"
+	_method = "GET"
+
+		[[content.form.attachment-list]]
+		_ref = "helpdesk-attachment-file-list"
+		_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+		_handler = "hlp.BindEnv(attachmentFileListHandler)"
+		_fragment = true
+		_default = true
+		_doc = "Default attachment file list template handler, parse file info from query string"
+
+		[[content.form.attachment-list]]
+		_ref = "uploaded-helpdesk-files"
+		_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+		_handler = "hlp.BindEnv(uploadedFilesHandler)"
+		_fragment = true
+		_path = "/ticket/helpdesk/upload-attachment"
+		_method = "POST"
+		_doc = "Load a list of uploaded files, save to storage and return metadata to the form"
+
+		[[content.form.form-message]]
+		_ref = "submit-help-desk-ticket"
+		_template = "page/ticket/templates/content/form/form-message/submit-help-desk-ticket.html.tmpl"
+		_handler = "hlp.BindEnv(submitHelpDeskTicketHandler)"
+		_fragment = true
+		_path = "/ticket/helpdesk/submit"
+		_method = "POST"
+		_doc = "process creation of a new help desk ticket"
+
+		[[content.form.notes]]
+		_ref = "new-helpdesk-notes"
+		_template = "page/ticket/templates/content/form/notes/new-helpdesk-notes.html.tmpl"
+		_default = true
+		_handler = "treetop.Noop"
+		_doc = "Show this when helpdesk form is loaded"
+
+		[[content.form.reported-by]]
+		_ref = "helpdesk-reported-by"
+		_template = "page/ticket/templates/content/form/reported-by/helpdesk-reported-by.html.tmpl"
+		_handler = "hlp.BindEnv(helpdeskReportedByHandler)"
+		_fragment = true
+		_default = true
+		_path = "/ticket/helpdesk/update-reported-by"
+		_method = "GET"
+		_doc = "Options for notifying help desk of who reported the issue"
+
+			[[content.form.reported-by.find-user]]
+			_ref = "find-helpdesk-reported-by"
+			_template = "page/ticket/templates/content/form/reported-by/find-user/find-helpdesk-reported-by.html.tmpl"
+			_handler = "hlp.BindEnv(findHelpdeskReportedByHandler)"
+			_fragment = true
+			_default = true
+			_path = "/ticket/helpdesk/find-reported-by"
+			_method = "GET"
+			_doc = "query string to find a user to select"
+
+	[[content.form]]
+	_ref = "new-software-ticket"
+	_template = "page/ticket/templates/content/form/new-software-ticket.html.tmpl"
+	_handler = "hlp.BindEnv(newSoftwareTicketHandler)"
+	_partial = true
+	_doc = "Form for creating software tickets specifically"
+	_path = "/ticket/software/new"
+	_method = "GET"
+
+		[[content.form.assignee]]
+		_ref = "view-software-assignee"
+		_template = "page/ticket/templates/content/form/assignee/view-software-assignee.html.tmpl"
+		_handler = "hlp.BindEnv(viewSoftwareAssigneeHandler)"
+		_fragment = true
+		_default = true
+		_path = "/ticket/software/update-assignee"
+		_doc = "Select multiple users as assignees"
+
+			[[content.form.assignee.find-user]]
+			_ref = "find-software-assignee"
+			_template = "page/ticket/templates/content/form/assignee/find-user/find-software-assignee.html.tmpl"
+			_handler = "hlp.BindEnv(findSoftwareAssigneeHandler)"
+			_fragment = true
+			_path = "/ticket/software/find-assignee"
+			_method = "GET"
+			_doc = "query string to find a user to select"
+
+		[[content.form.attachment-list]]
+		_ref = "software-attachment-file-list"
+		_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+		_handler = "hlp.BindEnv(attachmentFileListHandler)"
+		_fragment = true
+		_default = true
+		_doc = "Default attachment file list template handler, parse file info from query string"
+
+		[[content.form.attachment-list]]
+		_ref = "uploaded-software-files"
+		_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+		_handler = "hlp.BindEnv(uploadedFilesHandler)"
+		_fragment = true
+		_path = "/ticket/software/upload-attachment"
+		_method = "POST"
+		_doc = "Load a list of uploaded files, save to storage and return metadata to the form"
+
+		[[content.form.form-message]]
+		_ref = "submit-software-ticket"
+		_template = "page/ticket/templates/content/form/form-message/submit-default.html.tmpl"
+		_handler = "hlp.BindEnv(submitSoftwareTicketHandler)"
+		_fragment = true
+		_path = "/ticket/software/submit"
+		_method = "POST"
+		_doc = "process creation of a new software department ticket"
+
+		[[content.form.notes]]
+		_ref = "new-software-notes"
+		_template = "page/ticket/templates/content/form/notes/new-software-notes.html.tmpl"
+		_default = true
+		_handler = "treetop.Noop"
+		_doc = "Show this when software form is loaded"
+
+	[[content.form]]
+	_ref = "new-systems-ticket"
+	_template = "page/ticket/templates/content/form/new-systems-ticket.html.tmpl"
+	_handler = "hlp.BindEnv(newSystemsTicketHandler)"
+	_partial = true
+	_doc = "Form for creating systems tickets specifically"
+	_path = "/ticket/systems/new"
+	_method = "GET"
+
+		[[content.form.component-tags]]
+		_ref = "systems-component-tags-input-group"
+		_template = "page/ticket/templates/content/form/component-tags/systems-component-tags-input-group.html.tmpl"
+		_handler = "hlp.BindEnv(systemsComponentTagsInputGroupHandler)"
+		_fragment = true
+		_default = true
+		_path = "/ticket/systems/update-tags"
+		_doc = "Load form input group for the component tags selector"
+
+			[[content.form.component-tags.tag-search]]
+			_ref = "systems-component-tag-search"
+			_template = "page/ticket/templates/content/form/component-tags/tag-search/systems-component-tag-search.html.tmpl"
+			_handler = "hlp.BindEnv(systemsComponentTagSearchHandler)"
+			_fragment = true
+			_path = "/ticket/systems/find-tag"
+			_doc = "fuzzy match query to available systems component tags"
+
+		[[content.form.attachment-list]]
+		_ref = "systems-attachment-file-list"
+		_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+		_handler = "hlp.BindEnv(attachmentFileListHandler)"
+		_fragment = true
+		_default = true
+		_doc = "Default attachment file list template handler, parse file info from query string"
+
+		[[content.form.attachment-list]]
+		_ref = "uploaded-systems-files"
+		_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+		_handler = "hlp.BindEnv(uploadedFilesHandler)"
+		_fragment = true
+		_path = "/ticket/systems/upload-attachment"
+		_method = "POST"
+		_doc = "Load a list of uploaded files, save to storage and return metadata to the form"
+
+		[[content.form.form-message]]
+		_ref = "submit-systems-ticket"
+		_template = "page/ticket/templates/content/form/form-message/submit-default.html.tmpl"
+		_handler = "hlp.BindEnv(submitSystemsTicketHandler)"
+		_fragment = true
+		_path = "/ticket/systems/submit"
+		_method = "POST"
+		_doc = "process creation of a new systems department ticket"
+
+		[[content.form.notes]]
+		_ref = "new-systems-notes"
+		_template = "page/ticket/templates/content/form/notes/new-systems-notes.html.tmpl"
+		_default = true
+		_handler = "treetop.Noop"
+		_doc = "Show this when systems form is loaded"
+
+[[content]]
+_ref = "issue-preview"
+_template = "page/ticket/templates/content/issue-preview.html.tmpl"
+_handler = "hlp.BindEnv(issuePreviewHandler)"
+_doc = "Content wrapper around preview for different ticket type"
+
+	[[content.notes]]
+	_ref = "preview-notes"
+	_template = "page/ticket/templates/content/notes/preview-notes.html.tmpl"
+	_default = true
+	_handler = "treetop.Noop"
+
+	[[content.preview]]
+	_ref = "preview-software-ticket"
+	_template = "page/ticket/templates/content/preview/preview-software-ticket.html.tmpl"
+	_handler = "hlp.BindEnv(previewSoftwareTicketHandler)"
+	_path = "/ticket/software/preview"
+	_method = "GET"
+	_doc = "Show preview of software ticket, no database so take details form query params"
+
+	[[content.preview]]
+	_ref = "preview-helpdesk-ticket"
+	_template = "page/ticket/templates/content/preview/preview-helpdesk-ticket.html.tmpl"
+	_handler = "hlp.BindEnv(previewHelpdeskTicketHandler)"
+	_path = "/ticket/helpdesk/preview"
+	_method = "GET"
+	_doc = "Show preview of help desk ticket, no database so take details form query params"
+
+	[[content.preview]]
+	_ref = "preview-systems-ticket"
+	_template = "page/ticket/templates/content/preview/preview-systems-ticket.html.tmpl"
+	_handler = "hlp.BindEnv(previewSystemsTicketHandler)"
+	_path = "/ticket/systems/preview"
+	_method = "GET"
+	_doc = "Show preview of systems ticket, no database so take details form query params"
+
+[[styles]]
+_ref = "site-styles"
+_default = true
+_doc = "Include page styles in document header"
+_template = "page/ticket/templates/styles.html.tmpl"
+_handler = "treetop.Noop"
+
+[[scripts]]
+_ref = "site-scripts"
+_default = true
+_doc = "Include page scripts"
+_template = "page/ticket/templates/scripts.html.tmpl"
+_handler = "treetop.Noop"

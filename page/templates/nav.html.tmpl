@@ -1,0 +1,27 @@
+<nav>
+  <ul class="nav nav-pills justify-content-center">
+    <li class="nav-item">
+      <a {{ if eq . "intro" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/" title="Intro">
+        Intro
+      </a>
+    </li>
+    <li class="nav-item">
+      <a {{ if eq . "greeter" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/greeter"
+        title="View Greeter">
+        Greeter
+      </a>
+    </li>
+    <li class="nav-item">
+      <a {{ if eq . "inline" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/inline"
+        title="Inline Edit">
+        Inline Edit
+      </a>
+    </li>
+    <li class="nav-item">
+      <a {{ if eq . "ticket" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/ticket"
+        title="Ticket Wizard">
+        Ticket Wizard
+      </a>
+    </li>
+  </ul>
+</nav>
