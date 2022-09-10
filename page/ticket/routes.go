@@ -74,6 +74,37 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		hlp.BindEnv(findHelpdeskReportedByHandler),
 	)
 
+	// [[content]]
+	issuePreview := ticket.NewSubView(
+		"content",
+		"page/ticket/templates/content/issue-preview.html.tmpl",
+		hlp.BindEnv(issuePreviewHandler),
+	)
+
+	// [[content.notes]]
+	issuePreview.NewDefaultSubView(
+		"notes",
+		"page/ticket/templates/content/notes/preview-notes.html.tmpl",
+		treetop.Noop,
+	)
+
+	// [[content.preview]]
+	previewSoftwareTicket := issuePreview.NewSubView(
+		"preview",
+		"page/ticket/templates/content/preview/preview-software-ticket.html.tmpl",
+		hlp.BindEnv(previewSoftwareTicketHandler),
+	)
+	previewHelpdeskTicket := issuePreview.NewSubView(
+		"preview",
+		"page/ticket/templates/content/preview/preview-helpdesk-ticket.html.tmpl",
+		hlp.BindEnv(previewHelpdeskTicketHandler),
+	)
+	previewSystemsTicket := issuePreview.NewSubView(
+		"preview",
+		"page/ticket/templates/content/preview/preview-systems-ticket.html.tmpl",
+		hlp.BindEnv(previewSystemsTicketHandler),
+	)
+
 	// [[nav]]
 	ticket.NewDefaultSubView(
 		"nav",
@@ -109,5 +140,11 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		exec.NewViewHandler(helpdeskReportedBy).FragmentOnly())
 	hlp.HandleGET("/ticket/helpdesk/find-reported-by",
 		exec.NewViewHandler(findHelpdeskReportedBy).FragmentOnly())
+	hlp.HandleGET("/ticket/software/preview",
+		exec.NewViewHandler(previewSoftwareTicket).PageOnly())
+	hlp.HandleGET("/ticket/helpdesk/preview",
+		exec.NewViewHandler(previewHelpdeskTicket).PageOnly())
+	hlp.HandleGET("/ticket/systems/preview",
+		exec.NewViewHandler(previewSystemsTicket).PageOnly())
 
 }

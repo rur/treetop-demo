@@ -92,6 +92,42 @@ _path = "/ticket/helpdesk/find-reported-by"
 _method = "GET"
 _doc = "query string to find a user to select"
 
+[[content]]
+_ref = "issue-preview"
+_template = "page/ticket/templates/content/issue-preview.html.tmpl"
+_handler = "hlp.BindEnv(issuePreviewHandler)"
+_doc = "Content wrapper around preview for different ticket type"
+
+[[content.notes]]
+_ref = "preview-notes"
+_template = "page/ticket/templates/content/notes/preview-notes.html.tmpl"
+_default = true
+_handler = "treetop.Noop"
+
+[[content.preview]]
+_ref = "preview-software-ticket"
+_template = "page/ticket/templates/content/preview/preview-software-ticket.html.tmpl"
+_handler = "hlp.BindEnv(previewSoftwareTicketHandler)"
+_path = "/ticket/software/preview"
+_method = "GET"
+_doc = "Show preview of software ticket, no database so take details form query params"
+
+[[content.preview]]
+_ref = "preview-helpdesk-ticket"
+_template = "page/ticket/templates/content/preview/preview-helpdesk-ticket.html.tmpl"
+_handler = "hlp.BindEnv(previewHelpdeskTicketHandler)"
+_path = "/ticket/helpdesk/preview"
+_method = "GET"
+_doc = "Show preview of help desk ticket, no database so take details form query params"
+
+[[content.preview]]
+_ref = "preview-systems-ticket"
+_template = "page/ticket/templates/content/preview/preview-systems-ticket.html.tmpl"
+_handler = "hlp.BindEnv(previewSystemsTicketHandler)"
+_path = "/ticket/systems/preview"
+_method = "GET"
+_doc = "Show preview of systems ticket, no database so take details form query params"
+
 [[styles]]
 _ref = "site-styles"
 _default = true
