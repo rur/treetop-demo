@@ -1,48 +1,26 @@
 <nav>
   <ul class="nav nav-pills justify-content-center">
     <li class="nav-item">
-      <a
-        class="nav-link {{ if eq . "intro" }}active{{ end }}"
-        href="/"
-        title="Intro"
-      >
+      <a {{ if eq . "intro" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/" title="Intro">
         Intro
       </a>
     </li>
     <li class="nav-item">
-      <a
-        class="nav-link {{ if eq . "greeter" }}active{{ end }}"
-        href="/greeter"
-        title="View Greeter"
-      >
+      <a {{ if eq . "greeter" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/greeter"
+        title="View Greeter">
         Greeter
       </a>
     </li>
     <li class="nav-item">
-      <a
-        class="nav-link {{ if eq . "inline" }}active{{ end }}"
-        href="/inline"
-        title="Inline Edit"
-      >
+      <a {{ if eq . "inline" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/inline"
+        title="Inline Edit">
         Inline Edit
       </a>
     </li>
     <li class="nav-item">
-      <a
-        class="nav-link {{ if eq . "ticket" }}active{{ end }}"
-        href="/ticket"
-        title="Ticket Wizard"
-      >
+      <a {{ if eq . "ticket" }}class="nav-link active" {{ else }}class="nav-link" {{ end }} href="/ticket"
+        title="Ticket Wizard">
         Ticket Wizard
-      </a>
-    </li>
-    <li class="nav-item">
-      <a
-        class="nav-link {{ if eq . "more" }}active{{ end }}"
-        href="/more"
-        title="More..."
-      >
-        More...
       </a>
     </li>
   </ul>
