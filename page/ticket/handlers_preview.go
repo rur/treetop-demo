@@ -33,10 +33,17 @@ func issuePreviewHandler(env *site.Env, rsp treetop.Response, req *http.Request)
 // Doc: Show preview of software ticket, no database so take details form query params
 func previewSoftwareTicketHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
 	data := struct {
-		HandlerInfo string
+		EditLink string
+		Ticket   *inputs.SoftwareTicket
 	}{
-		HandlerInfo: "ticket Page previewSoftwareTicketHandler",
+		// generally this would be loaded from a database but for the demo
+		// we are only previewing from URL parameters
+		Ticket: inputs.SoftwareTicketFromQuery(req.URL.Query()),
 	}
+	formURL := url.URL{}
+	formURL.Path = "/ticket/software/new"
+	formURL.RawQuery = req.URL.Query().Encode()
+	data.EditLink = formURL.String()
 	return data
 }
 
