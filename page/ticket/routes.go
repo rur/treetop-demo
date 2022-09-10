@@ -89,7 +89,7 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	)
 
 	// [[content.form.assignee.find-user]]
-	findSoftwareAssignee := viewSoftwareAssignee.NewDefaultSubView(
+	findSoftwareAssignee := viewSoftwareAssignee.NewSubView(
 		"find-user",
 		"page/ticket/templates/content/form/assignee/find-user/find-software-assignee.html.tmpl",
 		hlp.BindEnv(findSoftwareAssigneeHandler),

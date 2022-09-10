@@ -115,7 +115,6 @@ _ref = "find-software-assignee"
 _template = "page/ticket/templates/content/form/assignee/find-user/find-software-assignee.html.tmpl"
 _handler = "hlp.BindEnv(findSoftwareAssigneeHandler)"
 _fragment = true
-_default = true
 _path = "/ticket/software/find-assignee"
 _method = "GET"
 _doc = "query string to find a user to select"
