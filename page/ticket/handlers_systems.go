@@ -16,17 +16,22 @@ import (
 // Method: GET
 // Doc: Form for creating systems tickets specifically
 func newSystemsTicketHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+	if treetop.IsTemplateRequest(req) {
+		// replace existing browser history entry with current URL
+		rsp.ReplacePageURL(req.URL.String())
+	}
+	query := req.URL.Query()
 	data := struct {
-		HandlerInfo    string
 		AttachmentList interface{}
 		ComponentTags  interface{}
 		FormMessage    interface{}
 		Notes          interface{}
+		Description    string
 	}{
-		HandlerInfo:    "ticket Page newSystemsTicketHandler",
-		AttachmentList: rsp.HandleSubView("attachment-list", req),
 		ComponentTags:  rsp.HandleSubView("component-tags", req),
+		AttachmentList: rsp.HandleSubView("attachment-list", req),
 		FormMessage:    rsp.HandleSubView("form-message", req),
+		Description:    query.Get("description"),
 		Notes:          rsp.HandleSubView("notes", req),
 	}
 	return data
