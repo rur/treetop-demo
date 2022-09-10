@@ -121,6 +121,53 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		treetop.Noop,
 	)
 
+	// [[content.form]]
+	newSystemsTicket := ticketFormContent.NewSubView(
+		"form",
+		"page/ticket/templates/content/form/new-systems-ticket.html.tmpl",
+		hlp.BindEnv(newSystemsTicketHandler),
+	)
+
+	// [[content.form.attachment-list]]
+	newSystemsTicket.NewDefaultSubView(
+		"attachment-list",
+		"page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl",
+		hlp.BindEnv(attachmentFileListHandler),
+	)
+	uploadedSystemsFiles := newSystemsTicket.NewSubView(
+		"attachment-list",
+		"page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl",
+		hlp.BindEnv(uploadedFilesHandler),
+	)
+
+	// [[content.form.component-tags]]
+	systemsComponentTagsInputGroup := newSystemsTicket.NewDefaultSubView(
+		"component-tags",
+		"page/ticket/templates/content/form/component-tags/systems-component-tags-input-group.html.tmpl",
+		hlp.BindEnv(systemsComponentTagsInputGroupHandler),
+	)
+
+	// [[content.form.component-tags.tag-search]]
+	systemsComponentTagSearch := systemsComponentTagsInputGroup.NewSubView(
+		"tag-search",
+		"page/ticket/templates/content/form/component-tags/tag-search/systems-component-tag-search.html.tmpl",
+		hlp.BindEnv(systemsComponentTagSearchHandler),
+	)
+
+	// [[content.form.form-message]]
+	submitSystemsTicket := newSystemsTicket.NewSubView(
+		"form-message",
+		"page/ticket/templates/content/form/form-message/submit-systems-ticket.html.tmpl",
+		hlp.BindEnv(submitSystemsTicketHandler),
+	)
+
+	// [[content.form.notes]]
+	newSystemsTicket.NewDefaultSubView(
+		"notes",
+		"page/ticket/templates/content/form/notes/new-systems-notes.html.tmpl",
+		treetop.Noop,
+	)
+
 	// [[content]]
 	issuePreview := ticket.NewSubView(
 		"content",
@@ -197,6 +244,16 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 		exec.NewViewHandler(uploadedSoftwareFiles).FragmentOnly())
 	hlp.HandlePOST("/ticket/software/submit",
 		exec.NewViewHandler(submitSoftwareTicket).FragmentOnly())
+	hlp.HandleGET("/ticket/systems/new",
+		exec.NewViewHandler(newSystemsTicket))
+	hlp.HandlePOST("/ticket/systems/upload-attachment",
+		exec.NewViewHandler(uploadedSystemsFiles).FragmentOnly())
+	hlp.Handle("/ticket/systems/update-tags",
+		exec.NewViewHandler(systemsComponentTagsInputGroup).FragmentOnly())
+	hlp.Handle("/ticket/systems/find-tag",
+		exec.NewViewHandler(systemsComponentTagSearch).FragmentOnly())
+	hlp.HandlePOST("/ticket/systems/submit",
+		exec.NewViewHandler(submitSystemsTicket).FragmentOnly())
 	hlp.HandleGET("/ticket/software/preview",
 		exec.NewViewHandler(previewSoftwareTicket).PageOnly())
 	hlp.HandleGET("/ticket/helpdesk/preview",

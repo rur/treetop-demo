@@ -1,0 +1,41 @@
+<div id="form" class="-generated-block -generated-block-partial">
+    <code>new-systems-ticket</code>
+    <h3>Block attachment-list</h3>
+    <ul>
+        
+        <li><form action="/ticket/systems/upload-attachment" method="POST" treetop><button>uploaded-systems-files</button></form></li>
+        
+    </ul>
+    {{ block "attachment-list" .AttachmentList }}
+    <div id="attachment-list"> default for block named attachment-list </div>
+    {{ end }}
+    
+    <h3>Block component-tags</h3>
+    <ul>
+        <li><button treetop-link="/ticket/systems/update-tags">systems-component-tags-input-group*</button></li>
+        
+    </ul>
+    {{ block "component-tags" .ComponentTags }}
+    <div id="component-tags"> default for block named component-tags </div>
+    {{ end }}
+    
+    <h3>Block form-message</h3>
+    <ul>
+        <li><form action="/ticket/systems/submit" method="POST" treetop><button>submit-systems-ticket</button></form></li>
+        
+    </ul>
+    {{ block "form-message" .FormMessage }}
+    <div id="form-message"> default for block named form-message </div>
+    {{ end }}
+    
+    <h3>Block notes</h3>
+    <ul>
+        
+        
+        
+    </ul>
+    {{ block "notes" .Notes }}
+    <div id="notes"> default for block named notes </div>
+    {{ end }}
+    
+</div>
