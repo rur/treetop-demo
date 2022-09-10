@@ -16,7 +16,7 @@
       "autoselect": (emt) => {
         emt.focus()
         setTimeout(function () {
-          if (emt.type = "email") {
+          if (emt.type === "email") {
             emt.select()
           } else {
             emt.setSelectionRange(0, emt.value.length)
