@@ -5,8 +5,9 @@ requests.
 
 #### Links
 
-- [Online Demo](https://treetop-demo.herokuapp.com/) - hosted by [Heroku](https://www.heroku.com/)
+- [Online Demo](https://treetop-demo.fly.dev/) - hosted by [Fly](https://treetop-demo.fly.dev/)
 - Client library for template requests, [treetop client](https://github.com/rur/treetop-client)
+- Web app setup [The Good Scaffold](https://github.com/rur/good)
 - Styling for components, [Bootstrap 4](https://getbootstrap.com/docs/4.0)
 
 ## Greeter App

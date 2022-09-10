@@ -18,50 +18,50 @@ _default = true
 _doc = "inline edit top level form handler"
 _path = "/inline"
 
-[[content.first-name]]
-_ref = "first-name-field"
-_template = "page/inline/templates/fields/input.html.tmpl"
-_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("firstName")))'
-_default = true
-_fragment = true
-_doc = "first name field input handler"
-_path = "/inline/firstName"
+	[[content.first-name]]
+	_ref = "first-name-field"
+	_template = "page/inline/templates/fields/input.html.tmpl"
+	_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("firstName")))'
+	_default = true
+	_fragment = true
+	_doc = "first name field input handler"
+	_path = "/inline/firstName"
 
-[[content.surname]]
-_ref = "surname-field"
-_template = "page/inline/templates/fields/input.html.tmpl"
-_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("surname")))'
-_default = true
-_fragment = true
-_doc = "surname field input handler"
-_path = "/inline/surname"
+	[[content.surname]]
+	_ref = "surname-field"
+	_template = "page/inline/templates/fields/input.html.tmpl"
+	_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("surname")))'
+	_default = true
+	_fragment = true
+	_doc = "surname field input handler"
+	_path = "/inline/surname"
 
-[[content.email]]
-_ref = "email-field"
-_template = "page/inline/templates/fields/email.html.tmpl"
-_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("email")))'
-_default = true
-_fragment = true
-_doc = "profile email field input handler"
-_path = "/inline/email"
+	[[content.email]]
+	_ref = "email-field"
+	_template = "page/inline/templates/fields/email.html.tmpl"
+	_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("email")))'
+	_default = true
+	_fragment = true
+	_doc = "profile email field input handler"
+	_path = "/inline/email"
 
-[[content.country]]
-_ref = "country-field"
-_template = "page/inline/templates/fields/select.html.tmpl"
-_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("country")))'
-_default = true
-_fragment = true
-_doc = "country select options handler"
-_path = "/inline/country"
+	[[content.country]]
+	_ref = "country-field"
+	_template = "page/inline/templates/fields/select.html.tmpl"
+	_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("country")))'
+	_default = true
+	_fragment = true
+	_doc = "country select options handler"
+	_path = "/inline/country"
 
-[[content.description]]
-_ref = "description-test-area"
-_template = "page/inline/templates/fields/textarea.html.tmpl"
-_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("description")))'
-_default = true
-_fragment = true
-_doc = "description text input handler"
-_path = "/inline/description"
+	[[content.description]]
+	_ref = "description-test-area"
+	_template = "page/inline/templates/fields/textarea.html.tmpl"
+	_handler = 'hlp.BindEnv(bindResources(getFormFieldHandler("description")))'
+	_default = true
+	_fragment = true
+	_doc = "description text input handler"
+	_path = "/inline/description"
 
 [[styles]]
 _ref = "site-styles"

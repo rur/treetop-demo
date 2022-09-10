@@ -14,21 +14,18 @@ import (
 // extends: content
 func profileFormHandler(form *FormData, env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
 	return struct {
-		ViewTree    string
 		FirstName   interface{}
 		Surname     interface{}
 		Email       interface{}
 		Country     interface{}
 		Description interface{}
 	}{
-		//ViewTree:    viewDebug,
 		FirstName:   rsp.HandleSubView("first-name", req),
 		Surname:     rsp.HandleSubView("surname", req),
 		Email:       rsp.HandleSubView("email", req),
 		Country:     rsp.HandleSubView("country", req),
 		Description: rsp.HandleSubView("description", req),
 	}
-
 }
 
 // getFormFieldHandler will create a request handler for an editable
