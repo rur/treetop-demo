@@ -2,8 +2,10 @@ package ticket
 
 import (
 	"net/http"
+	"net/url"
 
 	"github.com/rur/treetop"
+	"github.com/rur/treetop-demo/page/ticket/inputs"
 	"github.com/rur/treetop-demo/site"
 )
 
@@ -99,10 +101,58 @@ func systemsComponentTagSearchHandler(env *site.Env, rsp treetop.Response, req *
 // Method: POST
 // Doc: process creation of a new systems department ticket
 func submitSystemsTicketHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
+	var redirected bool
+	defer func() {
+		if !redirected && treetop.IsTemplateRequest(req) && len(req.PostForm) > 0 {
+			// quality-of-life improvement, replace browser URL to include latest
+			// form state so that a refresh will preserve inputs
+			newURL, _ := url.Parse("/ticket/systems/new")
+			q := req.PostForm
+			q.Del("file-upload")
+			newURL.RawQuery = q.Encode()
+			newURL.Fragment = "form-message"
+			// replace existing browser history entry with current URL
+			rsp.ReplacePageURL(newURL.String())
+		}
+	}()
+
+	// If all inputs are valid this handler will redirect the web browser
+	// either to the newly created ticket or to a blank form.
+	//
+	// If creation cannot proceed for any reason, this endpoint will render
+	// a form message HTML fragment with an alert level: info, warning or error
 	data := struct {
-		HandlerInfo string
+		Level   int
+		Message string
+		Title   string
 	}{
-		HandlerInfo: "ticket Page submitSystemsTicketHandler",
+		Level: formMessageInfo,
 	}
-	return data
+
+	if err := req.ParseForm(); err != nil {
+		rsp.Status(http.StatusBadRequest)
+		data.Level = formMessageError
+		data.Title = "Request Error"
+		data.Message = "Failed to read form data, try again or contact support."
+		return data
+	}
+	ticket := inputs.SystemsTicketFromQuery(req.PostForm)
+
+	// validation rules for creating a new Help Desk ticket
+	// NOTE, Do not take client-side validation for granted
+	if ticket.Summary == "" {
+		data.Level = formMessageWarning
+		data.Title = "Missing input"
+		data.Message = "Ticket title is required"
+		return data
+	}
+
+	// ticket is valid redirect to preview endpoint
+	previewURL := url.URL{
+		Path:     "/ticket/systems/preview",
+		RawQuery: ticket.RawQuery(),
+	}
+	treetop.Redirect(rsp, req, previewURL.String(), http.StatusSeeOther)
+	redirected = true
+	return nil
 }

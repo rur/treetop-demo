@@ -138,7 +138,7 @@ _doc = "Load a list of uploaded files, save to storage and return metadata to th
 
 [[content.form.form-message]]
 _ref = "submit-software-ticket"
-_template = "page/ticket/templates/content/form/form-message/submit-software-ticket.html.tmpl"
+_template = "page/ticket/templates/content/form/form-message/submit-default.html.tmpl"
 _handler = "hlp.BindEnv(submitSoftwareTicketHandler)"
 _fragment = true
 _path = "/ticket/software/submit"
@@ -197,7 +197,7 @@ _doc = "Load a list of uploaded files, save to storage and return metadata to th
 
 [[content.form.form-message]]
 _ref = "submit-systems-ticket"
-_template = "page/ticket/templates/content/form/form-message/submit-systems-ticket.html.tmpl"
+_template = "page/ticket/templates/content/form/form-message/submit-default.html.tmpl"
 _handler = "hlp.BindEnv(submitSystemsTicketHandler)"
 _fragment = true
 _path = "/ticket/systems/submit"

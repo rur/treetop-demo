@@ -110,7 +110,7 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	// [[content.form.form-message]]
 	submitSoftwareTicket := newSoftwareTicket.NewSubView(
 		"form-message",
-		"page/ticket/templates/content/form/form-message/submit-software-ticket.html.tmpl",
+		"page/ticket/templates/content/form/form-message/submit-default.html.tmpl",
 		hlp.BindEnv(submitSoftwareTicketHandler),
 	)
 
@@ -157,7 +157,7 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	// [[content.form.form-message]]
 	submitSystemsTicket := newSystemsTicket.NewSubView(
 		"form-message",
-		"page/ticket/templates/content/form/form-message/submit-systems-ticket.html.tmpl",
+		"page/ticket/templates/content/form/form-message/submit-default.html.tmpl",
 		hlp.BindEnv(submitSystemsTicketHandler),
 	)
 

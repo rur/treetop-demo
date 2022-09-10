@@ -9,9 +9,9 @@
           type="hidden" name="tags" value="{{ $tag }}"></span>
       {{- end }}
 
-      <input style="flex: auto" type="search" name="tag-query" class="border border-white px-1 my-1 w-25"
-        placeholder="find a tag" enter-submitter="find-tag-submitter" {{ if .AutoFocus }} autofocus{{ end }}
-        autocomplete="off">
+      <input style="flex: auto; outline-width: 0;" type="search" name="tag-query"
+        class="border border-white px-1 my-1 w-25" placeholder="find a tag" enter-submitter="find-tag-submitter" {{ if
+        .AutoFocus }} autofocus{{ end }} autocomplete="off">
       <button class="d-none" id="find-tag-submitter" treetop-submitter formnovalidate formmethod="GET"
         formaction="/ticket/systems/find-tag"></button>
     </div>
