@@ -41,16 +41,16 @@ _method = "GET"
 
 [[content.form.attachment-list]]
 _ref = "helpdesk-attachment-file-list"
-_template = "page/ticket/templates/content/form/attachment-list/helpdesk-attachment-file-list.html.tmpl"
-_handler = "hlp.BindEnv(helpdeskAttachmentFileListHandler)"
+_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+_handler = "hlp.BindEnv(attachmentFileListHandler)"
 _fragment = true
 _default = true
-_doc = "Default helpdesk attachment file list template handler, parse file info from query string"
+_doc = "Default attachment file list template handler, parse file info from query string"
 
 [[content.form.attachment-list]]
 _ref = "uploaded-helpdesk-files"
-_template = "page/ticket/templates/content/form/attachment-list/uploaded-helpdesk-files.html.tmpl"
-_handler = "hlp.BindEnv(uploadedHelpdeskFilesHandler)"
+_template = "page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl"
+_handler = "hlp.BindEnv(uploadedFilesHandler)"
 _fragment = true
 _path = "/ticket/helpdesk/upload-attachment"
 _method = "POST"

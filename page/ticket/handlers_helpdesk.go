@@ -52,31 +52,6 @@ func newHelpdeskTicketHandler(env *site.Env, rsp treetop.Response, req *http.Req
 	return data
 }
 
-// Ref: helpdesk-attachment-file-list
-// Block: attachment-list
-// Doc: Default helpdesk attachment file list template handler, parse file info from query string
-func helpdeskAttachmentFileListHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
-	data := struct {
-		HandlerInfo string
-	}{
-		HandlerInfo: "ticket Page helpdeskAttachmentFileListHandler",
-	}
-	return data
-}
-
-// Ref: uploaded-helpdesk-files
-// Block: attachment-list
-// Method: POST
-// Doc: Load a list of uploaded files, save to storage and return metadata to the form
-func uploadedHelpdeskFilesHandler(env *site.Env, rsp treetop.Response, req *http.Request) interface{} {
-	data := struct {
-		HandlerInfo string
-	}{
-		HandlerInfo: "ticket Page uploadedHelpdeskFilesHandler",
-	}
-	return data
-}
-
 // Ref: submit-help-desk-ticket
 // Block: form-message
 // Method: POST

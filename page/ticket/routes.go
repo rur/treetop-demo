@@ -37,13 +37,13 @@ func Routes(hlp page.Helper, exec treetop.ViewExecutor) {
 	// [[content.form.attachment-list]]
 	newHelpdeskTicket.NewDefaultSubView(
 		"attachment-list",
-		"page/ticket/templates/content/form/attachment-list/helpdesk-attachment-file-list.html.tmpl",
-		hlp.BindEnv(helpdeskAttachmentFileListHandler),
+		"page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl",
+		hlp.BindEnv(attachmentFileListHandler),
 	)
 	uploadedHelpdeskFiles := newHelpdeskTicket.NewSubView(
 		"attachment-list",
-		"page/ticket/templates/content/form/attachment-list/uploaded-helpdesk-files.html.tmpl",
-		hlp.BindEnv(uploadedHelpdeskFilesHandler),
+		"page/ticket/templates/content/form/attachment-list/attachment-file-list.html.tmpl",
+		hlp.BindEnv(uploadedFilesHandler),
 	)
 
 	// [[content.form.form-message]]
